@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>EOCA y Bender: guía y registro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F3F5F4; --surface:#FFFFFF; --ink:#1D2733; --muted:#586472; --line:#D5DBDD; --soft:#E8EDED;
+  --m1:#2E6DA4; --m2:#2F7A50; --m3:#9A6A05; --m4:#7A55A8; --on:#FFFFFF; --focus:#2E6DA4;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12171D; --surface:#1B222A; --ink:#E7EBEF; --muted:#9AA6B3; --line:#2E3843; --soft:#232C36;
+    --m1:#7DB2E3; --m2:#6CC08F; --m3:#E3B341; --m4:#B99CDF; --on:#10151A; --focus:#7DB2E3;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12171D; --surface:#1B222A; --ink:#E7EBEF; --muted:#9AA6B3; --line:#2E3843; --soft:#232C36;
+  --m1:#7DB2E3; --m2:#6CC08F; --m3:#E3B341; --m4:#B99CDF; --on:#10151A; --focus:#7DB2E3;
+  color-scheme:dark;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 4rem)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:'Bricolage Grotesque','Atkinson Hyperlegible',system-ui,sans-serif;line-height:1.2;letter-spacing:-.01em;margin:0}
+h1{font-size:1.8rem;font-weight:800}
+h2{font-size:1.25rem;font-weight:800}
+h3{font-size:1.05rem;font-weight:800}
+p{margin:.55em 0}
+ul,ol{margin:.5em 0;padding-left:1.25rem}
+li{margin:.25em 0}
+a{color:var(--m1)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.lede{color:var(--muted);max-width:40rem}
+.hint{font-size:.9rem;color:var(--muted);margin:.35em 0}
+
+/* barra superior */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.lapices{height:4px;background:linear-gradient(90deg,var(--m1) 0 25%,var(--m2) 25% 50%,var(--m3) 50% 75%,var(--m4) 75% 100%)}
+.top-in{display:flex;align-items:center;gap:.75rem;max-width:72rem;margin:0 auto;padding:.55rem 1rem}
+.brand{font-family:'Bricolage Grotesque','Atkinson Hyperlegible',system-ui,sans-serif;font-weight:800;font-size:1.3rem}
+.brand small{font:400 .85rem 'Atkinson Hyperlegible',system-ui,sans-serif;color:var(--muted);margin-left:.45rem}
+.mini{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:700;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.1rem .65rem}
+.mini[hidden]{display:none}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs button{flex:1;background:none;border:0;border-top:3px solid transparent;padding:.75rem .1rem;font:700 .8rem 'Atkinson Hyperlegible',system-ui,sans-serif;color:var(--muted);cursor:pointer}
+nav.tabs button[aria-current="page"]{color:var(--ink);border-top-color:var(--ink)}
+
+.wrap{max-width:46rem;margin:0 auto;padding:1.4rem 1rem 6.5rem}
+.wrap.wide{max-width:72rem}
+
+/* etiquetas de fuente */
+.src{display:inline-block;font-size:.74rem;font-weight:700;line-height:1.5;border-radius:999px;padding:0 .5rem;border:1px solid var(--ink);margin-right:.3rem;vertical-align:.08em;white-space:nowrap}
+.src.v{background:var(--ink);color:var(--bg)}
+.src.g{color:var(--ink)}
+.src.a{color:var(--muted);border-color:var(--muted);border-style:dashed}
+
+/* secciones plegables */
+details.sec{border-top:1px solid var(--line);padding:.35rem 0}
+details.sec>summary{list-style:none;display:flex;align-items:center;gap:.6rem;cursor:pointer;padding:.55rem 0;font-family:'Bricolage Grotesque','Atkinson Hyperlegible',system-ui,sans-serif;font-weight:800;font-size:1.2rem}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::after{content:'+';margin-left:auto;font-size:1.5rem;font-weight:400;color:var(--muted)}
+details.sec[open]>summary::after{content:'\2212'}
+.sec-b{padding:0 0 1rem}
+
+/* hilo de los cuatro momentos */
+.hilo{list-style:none;margin:1rem 0;padding:0;position:relative}
+.hilo::before{content:'';position:absolute;left:1.05rem;top:1rem;bottom:1.4rem;width:3px;background:var(--line);border-radius:2px}
+.hilo>li{position:relative;padding:0 0 1.4rem 3.2rem;margin:0}
+.hilo .nodo{position:absolute;left:0;top:0;width:2.15rem;height:2.15rem;border-radius:50%;display:grid;place-items:center;font:800 1rem 'Bricolage Grotesque',system-ui,sans-serif;color:var(--on);background:var(--mc)}
+.hilo h3{display:inline-block;border-bottom:3px solid var(--mc);padding-bottom:.1rem;margin-bottom:.3rem}
+.m1{--mc:var(--m1)} .m2{--mc:var(--m2)} .m3{--mc:var(--m3)} .m4{--mc:var(--m4)}
+
+table.fig{width:100%;border-collapse:collapse;font-size:.95rem;margin:.6rem 0}
+table.fig th,table.fig td{border:1px solid var(--line);padding:.5rem .6rem;text-align:left;vertical-align:top}
+table.fig th{background:var(--soft)}
+.tablewrap{overflow-x:auto}
+.callout{border-left:4px solid var(--muted);background:var(--soft);padding:.6rem .85rem;border-radius:0 8px 8px 0;margin:.8rem 0}
+.quote{border-left:4px solid var(--m1);padding:.2rem .85rem;margin:.7rem 0;font-style:italic}
+.cols2{display:grid;gap:1rem}
+.check{display:flex;gap:.6rem;align-items:flex-start;margin:.35rem 0}
+.check input{width:1.3rem;height:1.3rem;margin-top:.2rem;accent-color:var(--ink);flex:none}
+.matgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:.1rem .8rem}
+
+/* formularios */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1rem;margin:0 0 1rem}
+.lbl{display:block;font-weight:700;font-size:.9rem;margin:.8rem 0 .25rem}
+input[type=text],input[type=date],textarea,select{width:100%;font:400 1rem/1.4 'Atkinson Hyperlegible',system-ui,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.6rem .7rem}
+textarea{resize:vertical;min-height:4.2rem}
+.btn{font:700 .95rem 'Atkinson Hyperlegible',system-ui,sans-serif;border:2px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:10px;padding:.6rem 1rem;cursor:pointer;min-height:2.75rem}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.small{padding:.25rem .65rem;min-height:2rem;font-size:.85rem}
+.btn.warn{border-color:#B3362B;background:#B3362B;color:#fff}
+.btns{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{font:400 .9rem 'Atkinson Hyperlegible',system-ui,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:.35rem .8rem;cursor:pointer;min-height:2.25rem}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rchip{position:relative}
+.rchip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.rchip span{display:inline-block;font-size:.9rem;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:.35rem .8rem;min-height:2.25rem}
+.rchip input:checked+span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rchip input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+.moms{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}
+.momb{display:flex;flex-direction:column;align-items:center;gap:.1rem;border:2px solid var(--mc);background:color-mix(in srgb,var(--mc) 10%,var(--surface));color:var(--ink);border-radius:10px;padding:.45rem .15rem;font:700 .78rem 'Atkinson Hyperlegible',system-ui,sans-serif;min-height:3.6rem;cursor:pointer}
+.momb b{font:800 1.2rem 'Bricolage Grotesque',system-ui,sans-serif}
+.momb[aria-pressed="true"]{background:var(--mc);color:var(--on)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.seg button{font:700 .95rem 'Atkinson Hyperlegible',system-ui,sans-serif;border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:.55rem;cursor:pointer;min-height:2.75rem}
+.seg button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.tm{font:800 2.6rem/1 'Bricolage Grotesque',system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.cols{display:grid;gap:1rem}
+.prog{font-weight:400;font-size:.9rem;color:var(--muted);margin-left:.4rem}
+
+/* registro */
+.ent{border:1px solid var(--line);border-left:6px solid var(--mc);background:var(--surface);border-radius:8px;padding:.7rem .85rem;margin:.6rem 0}
+.ent-h{display:flex;flex-wrap:wrap;gap:.2rem .8rem;font-size:.86rem;color:var(--muted);align-items:center}
+.ent-h b{color:var(--ink)}
+.ent p{margin:.3rem 0}
+.ent .k{font-weight:700;font-size:.85rem;color:var(--muted)}
+.tagline{font-size:.85rem;color:var(--muted)}
+.empty{color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:1rem;text-align:center}
+.bar{display:flex;height:.9rem;border-radius:999px;overflow:hidden;background:var(--soft);margin:.5rem 0}
+.bar i{display:block;background:var(--mc)}
+.stat{display:flex;flex-wrap:wrap;gap:.4rem .9rem}
+.stat span{font-size:.92rem}
+.dch{display:inline-block;font-size:.85rem;border-radius:999px;padding:.1rem .6rem;border:1px solid var(--ink);margin:.15rem .2rem .15rem 0}
+.dch.df{background:var(--ink);color:var(--bg)}
+.prev{font:400 .85rem/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:22rem}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(4.6rem + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:.55rem 1rem;border-radius:999px;font-weight:700;font-size:.92rem;z-index:50;max-width:90vw;text-align:center}
+.toast[hidden]{display:none}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 .8rem}
+@media (min-width:900px){
+  nav.tabs{position:static;border:0;background:none;padding:0;margin-left:1rem;display:flex;gap:.2rem}
+  nav.tabs button{flex:none;padding:.5rem .9rem;border-top:0;border-bottom:3px solid transparent}
+  nav.tabs button[aria-current="page"]{border-bottom-color:var(--ink)}
+  .wrap{padding-bottom:3rem}
+  .cols{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}
+  .cols2{grid-template-columns:1fr 1fr}
+  .toast{bottom:1.5rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="lapices" aria-hidden="true"></div>
+  <div class="top-in">
+    <div class="brand">EOCA<small>guía y registro</small></div>
+    <nav class="tabs" id="tabs" aria-label="Secciones"></nav>
+    <div class="mini" id="mini" hidden aria-label="Cronómetro">00:00</div>
+  </div>
+</header>
+<main id="app"></main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- utilidades ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nl=s=>esc(s).replace(/\n/g,'<br>');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const today=()=>{try{return new Date().toLocaleDateString('en-CA')}catch(e){return ''}};
+const hhmm=()=>{try{return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}catch(e){return ''}};
+const fmt=ms=>{const s=Math.floor(ms/1000),m=Math.floor(s/60);return String(m).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+
+/* ---------- contenido ---------- */
+const CONSIGNA='Me gustaría que me muestres lo aprendido, lo que te han enseñado, lo que sabés hacer.';
+const MATERIALES=['Papel','Lápiz','Sacapuntas','Goma','Regla','Compás','Escuadra','Lápices de colores','Tijera','Plasticola','Un texto'];
+const ENCUADRE_CHECK=[
+  'Ambiente tranquilo, sin interrupciones',
+  'Adulto responsable disponible y cerca, sin participar de la administración',
+  'Materiales dispuestos sobre el escritorio',
+  'Le expliqué al niño quién soy y qué vamos a hacer, de manera acorde a su edad',
+  'Respeto su disposición a participar',
+  'Tengo a mano el registro: fecha, lugar, duración y personas presentes'
+];
+const MOM=[
+  {n:1,nombre:'Delimitación e inestructuración del campo',corto:'Delimitación',hint:'Das la consigna y mirás cómo el niño la entiende y arma el campo.'},
+  {n:2,nombre:'Conducta: energético-estructural',corto:'Conducta',hint:'Registrá lo que hace y dice, y cómo elige y ordena los materiales.'},
+  {n:3,nombre:'Intervenciones',corto:'Intervención',hint:'Anotá tu intervención y a qué clase pertenece.'},
+  {n:4,nombre:'Modificación o no de la conducta',corto:'Modificación',hint:'Anotá si la conducta cambió o no después de intervenir.'}
+];
+const OBS_TAGS=['Comprensión de la consigna','Elección de materiales','Modalidad de inicio','Actividades elegidas','Organización','Planificación','Estrategias utilizadas','Conocimientos puestos en juego','Autonomía','Pedidos de ayuda','Reacción frente al error o la dificultad','Cambios de estrategia','Persistencia','Expresiones espontáneas','Relación con quien entrevista','Modalidad de finalización'];
+const CLSL={consigna:'Consigna inicial',a:'Facilita la transición entre actividades',b:'Dirigida a los aspectos energéticos',c:'Dirigida a los aspectos estructurales y funcionales'};
+const TIPOS_A=['Respuesta gestual','Modelo de alternativa múltiple','Proposición abierta de mostrar otra cosa','Proposición cerrada de mostrar otra cosa'];
+const DEFL={nodef:'Conducta no defensiva',confusion:'Defensiva por miedo a la confusión',ataque:'Defensiva por miedo al ataque',perdida:'Defensiva por miedo a la pérdida'};
+const DEFS={nodef:'no defensiva',confusion:'confusión',ataque:'ataque',perdida:'pérdida'};
+const KIND={nino:'Niño',yo:'Yo',mat:'Material'};
+const ENC_FIELDS=[
+  {g:'Datos generales',k:'alias',l:'Nombre ficticio del niño',h:'Inventá un nombre. No uses apellido, escuela ni domicilio.',t:'text'},
+  {k:'edad',l:'Edad',t:'text',ph:'Ej.: 8 años'},
+  {k:'nac',l:'Fecha de nacimiento',t:'date'},
+  {k:'curso',l:'Año que cursa',t:'text',ph:'Ej.: 3.º grado'},
+  {k:'familia',l:'Grupo familiar y personas con quienes convive',t:'area'},
+  {k:'actividades',l:'Actividades que realiza fuera de la escuela',t:'area'},
+  {g:'Encuentro con el niño',k:'fecha',l:'Fecha',t:'date'},
+  {k:'lugar',l:'Lugar',h:'Descripción general del espacio, sin dirección.',t:'text'},
+  {k:'presentes',l:'Personas presentes',h:'Incluí al adulto que estaba cerca.',t:'text'},
+  {k:'ambiente',l:'Características generales del ambiente',t:'area'},
+  {k:'presentacion',l:'Cómo te presentaste',t:'area'},
+  {k:'recepcion',l:'Cómo recibió el niño la propuesta',t:'area'},
+  {k:'actitud',l:'Actitud inicial del niño',t:'area'}
+];
+const ANA_FIELDS=[
+  {k:'campos',t:'Coincidencia de los campos psicológico, de conciencia y geográfico',s:'Visca, p. 44',h:'Campo geográfico: consigna, materiales, entrevistador. ¿Qué tanto coincidió lo que el niño pensó y percibió con lo que había en la mesa?'},
+  {k:'defensivas',t:'Conductas no defensivas y defensivas',s:'Visca, p. 44',h:'Momento de aparición, intensidad, frecuencia, predominancia o alternancia. Defensivas por miedo a la confusión, al ataque y a la pérdida.',auto:'def'},
+  {k:'materiales',t:'Orden y elección de los materiales',s:'Visca, p. 44',h:'¿Qué eligió primero? ¿Qué no usó? ¿Cómo los organizó?',auto:'mat'},
+  {k:'lectura',t:'Lectura de objetos y situaciones',s:'Visca, p. 44',h:'Cómo interpretó la consigna, los materiales y la situación.'},
+  {k:'estrategias',t:'Estrategias de aprendizaje',s:'Visca, p. 44',h:'Cómo se organizó, planificó, resolvió y cambió de estrategia.'},
+  {k:'funcionales',t:'Características funcionales',s:'Visca, p. 44',h:'Rasgos del funcionamiento cognitivo que se pusieron en juego.'}
+];
+
+/* ---------- BENDER: contenido ---------- */
+const BCONSIGNA='Aquí tengo nueve tarjetas con dibujos para que los copies. Aquí está el primero. Haz uno igual a éste.';
+const BFIGS=['general','A','1','2','3','4','5','6','7','8'];
+const B_TAGS=['Comprensión de la consigna','Modalidad de inicio','Organización frente a la tarea','Atención','Autonomía','Verbalizaciones','Pedidos de ayuda','Actitud frente a las dificultades','Revisiones o modificaciones','Modalidad de finalización'];
+const B_COND=[['preguntas','Hace preguntas'],['comentarios','Realiza comentarios'],['cuenta','Cuenta'],['desatento','Desatento'],['borrador','Usa el borrador'],['detallista','Detallista'],['rotacion','Rota la hoja o la tarjeta'],['observador','Observador'],['gesto','Realiza algún gesto llamativo']];
+const BITEMS=[
+ ['A','1a','Distorsión de la forma: el cuadrado o el círculo (o ambos) están excesivamente achatados o deformados; un eje es el doble del otro.'],
+ ['A','1b','Desproporción: uno de los dos es el doble de grande que el otro.'],
+ ['A','2','Rotación de la figura o de parte de ella en 45° o más, o rotación de la tarjeta.'],
+ ['A','3','Integración: el círculo y el vértice adyacente del cuadrado están separados o superpuestos en más de 3 mm.'],
+ ['1','4','Distorsión de la forma: cinco o más puntos convertidos en círculos (puntos agrandados, círculos parcialmente llenos y rayas no cuentan).'],
+ ['1','5','Rotación de la figura en 45° o más, o rotación de la tarjeta.'],
+ ['1','6','Perseveración: más de 15 puntos en una hilera.'],
+ ['2','7','Rotación de la figura en 45° o más, o rotación de la tarjeta.'],
+ ['2','8','Integración: omisión o adición de hileras; hilera de puntos de la figura 1 usada como tercera hilera; cuatro o más círculos en la mayoría de las columnas.'],
+ ['2','9','Perseveración: más de 14 columnas de círculos en una hilera.'],
+ ['3','10','Distorsión de la forma: cinco o más puntos convertidos en círculos (puntos agrandados, círculos parcialmente llenos y rayas no cuentan).'],
+ ['3','11','Rotación del eje de la figura en 45° o más, o rotación de la tarjeta.'],
+ ['3','12a','Integración, desintegración del diseño: aumento de cada hilera no logrado, «cabeza de flecha» irreconocible o invertida, conglomeración de puntos.'],
+ ['3','12b','Integración, línea continua en lugar de hileras de puntos (sustituye a los puntos o se agrega a ellos).'],
+ ['4','13','Rotación de la figura o de parte de ella en 45° o más, o rotación de la tarjeta.'],
+ ['4','14','Integración: separación o superposición de más de 3 mm entre la curva y el ángulo adyacente.'],
+ ['5','15','Distorsión de la forma: cinco o más puntos convertidos en círculos (puntos agrandados, círculos parcialmente llenos y rayas no cuentan).'],
+ ['5','16','Rotación de la figura total en 45° o más, o de la extensión. Se puntúa una sola vez.'],
+ ['5','17a','Integración, desintegración del diseño: conglomeración de puntos; recta o círculo de puntos en lugar de un arco; la extensión atraviesa el arco.'],
+ ['5','17b','Integración, línea continua en lugar de puntos (en el arco, la extensión o ambos).'],
+ ['6','18a','Distorsión de la forma: tres o más curvas sustituidas por ángulos (en caso de duda, no computar).'],
+ ['6','18b','Distorsión de la forma: ninguna curva en una o ambas líneas; líneas rectas.'],
+ ['6','19','Integración: las dos líneas no se cruzan o se cruzan en un extremo; dos líneas onduladas entrelazadas.'],
+ ['6','20','Perseveración: seis o más curvas sinusoidales completas en cualquiera de las dos direcciones.'],
+ ['7','21a','Distorsión de la forma: desproporción, un hexágono es al menos el doble de grande que el otro.'],
+ ['7','21b','Distorsión de la forma: hexágonos excesivamente deformados; adición u omisión de ángulos.'],
+ ['7','22','Rotación de la figura o de parte de ella en 45° o más, o rotación de la tarjeta.'],
+ ['7','23','Integración: los hexágonos no se superponen o lo hacen excesivamente (uno penetra completamente en el otro).'],
+ ['8','24','Distorsión de la forma: hexágono o rombo excesivamente deformados; ángulos agregados u omitidos; rombo omitido.'],
+ ['8','25','Rotación de la figura en 45° o más, o rotación de la tarjeta.']
+];
+const MAD={21:'menor a 4 años 0 meses',20:'4 años 0 meses',19:'4 años 1 mes',18:'4 años 2 meses a 4 años 3 meses',17:'4 años 4 meses a 4 años 5 meses',16:'4 años 6 meses a 4 años 7 meses',15:'4 años 8 meses a 4 años 9 meses',14:'4 años 10 meses a 4 años 11 meses',13:'5 años 0 meses a 5 años 1 mes',12:'5 años 2 meses a 5 años 3 meses',11:'5 años 4 meses a 5 años 5 meses',10:'5 años 6 meses a 5 años 8 meses',9:'5 años 9 meses a 5 años 11 meses',8:'6 años 0 meses a 6 años 5 meses',7:'6 años 6 meses a 6 años 11 meses',6:'7 años 0 meses a 7 años 5 meses',5:'7 años 6 meses a 7 años 11 meses',4:'8 años 0 meses a 8 años 5 meses',3:'8 años 6 meses a 8 años 11 meses',2:'9 años 0 meses a 9 años 11 meses',1:'10 años 0 meses a 10 años 11 meses',0:'11 años 0 meses a 11 años 11 meses'};
+const EMO=[
+ {n:1,t:'Orden confuso',c:'Figuras distribuidas al azar, sin secuencia lógica y no por falta de espacio. Cualquier orden o secuencia lógica (arriba-abajo, izquierda-derecha, etc.) es positivo.',a:'planeamiento pobre y dificultad para organizar el material; común hasta los 7 años, con significación desde esa edad'},
+ {n:2,t:'Línea ondulada (figuras 1 y 2)',c:'Dos o más cambios abruptos en la dirección de la línea de puntos o círculos, que abarquen al menos dos puntos o círculos consecutivos. No puntúa si es rotación.',a:'inestabilidad en la coordinación motora y en la personalidad; factores orgánicos y/o emocionales'},
+ {n:3,t:'Círculos sustituidos por rayas (figura 2)',c:'La mitad o más de los círculos son rayas de 2 mm o más.',a:'impulsividad y falta de interés o de atención'},
+ {n:4,t:'Aumento progresivo de tamaño',c:'Los últimos puntos o círculos son al menos el triple de grandes que los primeros.',a:'baja tolerancia a la frustración y explosividad; cobra valor a medida que el niño crece'},
+ {n:5,t:'Gran tamaño',c:'Uno o más dibujos un tercio más grande, en ambas direcciones, que el de la tarjeta.',a:'conducta de acting out; en niños pequeños puede ser una dificultad para controlar el movimiento gráfico'},
+ {n:6,t:'Tamaño pequeño',c:'Uno o más dibujos la mitad de pequeños que el modelo, en ambas direcciones.',a:'timidez, retraimiento, constricción y ansiedad'},
+ {n:7,t:'Trazo débil o línea fina',c:'El trazo es tan fino que cuesta distinguir el dibujo.',a:'timidez y retraimiento'},
+ {n:8,t:'Trazo grueso o repaso',c:'Todo el dibujo o parte de él está repasado o reformado con líneas espesas, impulsivas.',a:'impulsividad y agresividad'},
+ {n:9,t:'Segunda tentativa',c:'Abandona un dibujo antes de terminarlo y lo empieza de nuevo en otro lugar de la hoja. No cuenta si lo borra y lo rehace en el mismo lugar.',a:'impulsividad y ansiedad'},
+ {n:10,t:'Expansión',c:'Usa dos o más hojas de papel.',a:'impulsividad y acting out; común en los más pequeños'},
+ {n:11,t:'Constricción',c:'Usa menos de la mitad de la hoja (figura solo en el libro de la UCSE).',a:'retraimiento, timidez e inhibición'},
+ {n:12,t:'Marcos alrededor de las figuras',c:'Enmarca o encierra la copia de las figuras.',a:'intento de controlar los propios impulsos y necesidad de límites y controles externos'},
+ {n:13,t:'Elaboración espontánea o adición',c:'Agrega elementos gráficos que no son del modelo y que transforman groseramente las figuras.',a:'ansiedad, temores, preocupación por los propios sentimientos y débil contacto con la realidad; tomar con cautela'}
+];
+
+/* ---------- estado ---------- */
+const KEY='eoca-registro-v1';
+const freshDraft=()=>({reg:'',obs:'',hip:'',tags:[],def:'',int:'',cls:'consigna',tipo:''});
+const defaults=()=>({
+  ui:{tab:'guia',moment:1,kind:'nino',bfig:'general',open:{}},
+  enc:{alias:'',edad:'',nac:'',curso:'',familia:'',actividades:'',fecha:today(),lugar:'',presentes:'',ambiente:'',presentacion:'',recepcion:'',actitud:''},
+  chk:{mat:{},enc:{}},
+  timer:{elapsed:0,runStart:null},
+  entries:[],
+  draft:freshDraft(),
+  editId:null,
+  ana:{campos:'',defensivas:'',materiales:'',lectura:'',estrategias:'',funcionales:'',tematica:'',dinamica:'',producto:'',hipotesis:'',interrogantes:'',integracion:''},
+  ficha:{nombre:'EOCA: Entrevista Operativa Centrada en el Aprendizaje',objetivo:'Observar las manifestaciones cognitivo-afectivas de la conducta del niño en situación de aprendizaje, considerando su dimensión energética y su dimensión estructural.',material:MATERIALES.join(', ').toLowerCase().replace(/^./,c=>c.toUpperCase()),consigna:CONSIGNA,produccion:'',observaciones:''},
+  ben:{edA:'',edM:'',
+    cond:{modo:'',papel:'',preguntas:'',comentarios:'',cuenta:'',desatento:'',borrador:'',detallista:'',rotacion:'',observador:'',gesto:'',gestoTxt:'',otros:''},
+    entries:[],draft:{reg:'',obs:'',hip:'',tags:[]},editId:null,sc:{},emo:{},
+    ficha:{nombre:'Test Gestáltico Visomotor de Bender (sistema de Koppitz)',objetivo:'Observar cómo se desenvuelve el niño frente a una propuesta más estructurada y, de forma opcional, estimar la madurez visomotriz mediante la copia de nueve figuras.',material:'Nueve tarjetas (A y 1 a 8), dos hojas tamaño carta o A4, lápiz n.° 2 y goma de borrar.',consigna:BCONSIGNA,produccion:'',observaciones:''},
+    ana:{desenv:''}},
+  bt:{elapsed:0,runStart:null}
+});
+const isObj=v=>v&&typeof v==='object'&&!Array.isArray(v);
+function merge(d,s){
+  if(!isObj(d)||!isObj(s)) return s===undefined?d:s;
+  const o={};
+  Object.keys(d).forEach(k=>{o[k]=(k in s)?merge(d[k],s[k]):d[k]});
+  Object.keys(s).forEach(k=>{if(!(k in o)) o[k]=s[k]});
+  return o;
+}
+let S=defaults();
+try{const raw=localStorage.getItem(KEY); if(raw) S=merge(defaults(),JSON.parse(raw));}catch(e){}
+S.timer.runStart=null;S.bt.runStart=null;
+let saveT=null;
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}cloudSched()},250)}
+function setPath(p,v){const a=p.split('.');let o=S;for(let i=0;i<a.length-1;i++){if(!isObj(o[a[i]])) o[a[i]]={};o=o[a[i]]}o[a[a.length-1]]=v}
+function getPath(p){return p.split('.').reduce((o,k)=>o==null?'':o[k],S)}
+/* ---------- nube (Supabase), opcional ---------- */
+/* Completá estos dos valores con los de tu proyecto (Project Settings > API).
+   Usá SIEMPRE la clave "anon" (publishable). Nunca la "service_role". */
+const CLOUD_CFG={url:'',key:''};
+const CLOUD_ON=/^https:\/\//.test(CLOUD_CFG.url)&&CLOUD_CFG.key.length>20;
+let sb=null,cloudT=null;
+const cloud={user:null,row:null,auto:false,busy:false,msg:''};
+try{cloud.auto=localStorage.getItem('eoca-sync-auto')==='1'}catch(e){}
+function loadSb(){
+  return new Promise((res,rej)=>{
+    if(window.supabase) return res();
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    s.onload=res;s.onerror=()=>rej(new Error('No se pudo cargar la librería de Supabase'));
+    document.head.appendChild(s);
+  });
+}
+function cloudRefresh(){if(S.ui.tab==='exportar')render()}
+async function cloudInit(){
+  if(!CLOUD_ON) return;
+  try{
+    await loadSb();
+    sb=window.supabase.createClient(CLOUD_CFG.url,CLOUD_CFG.key,{auth:{persistSession:true,detectSessionInUrl:true}});
+    const r=await sb.auth.getSession();
+    cloud.user=r.data&&r.data.session?r.data.session.user:null;
+    sb.auth.onAuthStateChange((ev,sess)=>{
+      const u=sess?sess.user:null;
+      if(u&&(!cloud.user||cloud.user.id!==u.id)){cloud.user=u;cloudFetch()}
+      else if(!u){cloud.user=null;cloud.row=null;cloudRefresh()}
+    });
+    if(cloud.user) await cloudFetch(); else cloudRefresh();
+  }catch(e){cloud.msg='No se pudo conectar con la nube.';cloudRefresh()}
+}
+async function cloudFetch(){
+  if(!sb||!cloud.user) return;
+  const r=await sb.from('eoca_casos').select('updated_at,data').eq('user_id',cloud.user.id).maybeSingle();
+  if(r.error){cloud.msg='No se pudo leer de la nube.'}else{cloud.row=r.data;cloud.msg=''}
+  cloudRefresh();
+}
+async function cloudPush(){
+  if(!sb||!cloud.user||cloud.busy) return false;
+  cloud.busy=true;
+  const r=await sb.from('eoca_casos').upsert({user_id:cloud.user.id,alias:S.enc.alias||null,data:S},{onConflict:'user_id'});
+  cloud.busy=false;
+  if(r.error){cloud.msg='No se pudo guardar en la nube.';cloudRefresh();return false}
+  cloud.msg='';await cloudFetch();return true;
+}
+function cloudSched(){
+  if(!CLOUD_ON||!cloud.auto||!cloud.user) return;
+  clearTimeout(cloudT);cloudT=setTimeout(cloudPush,4000);
+}
+function cloudCard(){
+  if(!CLOUD_ON) return '<div class="card"><h2>Nube</h2><p class="hint">La nube no está configurada. Completá <code>CLOUD_CFG</code> al inicio del script con la URL y la clave anon de tu proyecto de Supabase.</p></div>';
+  if(!cloud.user){
+    return '<div class="card"><h2>Nube</h2><p class="hint">Iniciá sesión para guardar tu registro en Supabase y abrirlo desde otro dispositivo.</p>'+
+      '<label class="lbl" for="c-mail">Correo</label><input id="c-mail" type="text" inputmode="email" autocomplete="email" placeholder="tu@correo.com">'+
+      '<div class="btns"><button type="button" class="btn" data-act="cloudLogin">Enviar enlace de acceso</button></div>'+
+      (cloud.msg?'<p class="hint">'+esc(cloud.msg)+'</p>':'')+'</div>';
+  }
+  const when=cloud.row&&cloud.row.updated_at?new Date(cloud.row.updated_at).toLocaleString('es-AR'):'';
+  return '<div class="card"><h2>Nube</h2><p>Sesión: '+esc(cloud.user.email||'')+'</p>'+
+    '<p class="hint">'+(cloud.row?'Último guardado en la nube: '+esc(when)+'.':'Todavía no hay nada guardado en la nube.')+'</p>'+
+    (cloud.msg?'<p class="hint">'+esc(cloud.msg)+'</p>':'')+
+    '<div class="btns"><button type="button" class="btn" data-act="cloudPush">Subir a la nube</button>'+
+    (cloud.row?'<button type="button" class="btn ghost'+(armed==='pull'?' warn':'')+'" data-act="cloudPull">'+(armed==='pull'?'¿Reemplazar lo de este dispositivo?':'Traer de la nube')+'</button>':'')+
+    '<button type="button" class="btn ghost small" data-act="cloudOut">Cerrar sesión</button></div>'+
+    '<div class="chips" style="margin-top:.8rem"><button type="button" class="chip" data-act="cloudAuto" aria-pressed="'+cloud.auto+'">Subir automáticamente</button></div>'+
+    '<p class="hint">Subir reemplaza lo que haya en la nube; traer reemplaza lo de este dispositivo.</p></div>';
+}
+
+
+/* ---------- cronómetro ---------- */
+const elapsedNow=()=>S.timer.elapsed+(S.timer.runStart?Date.now()-S.timer.runStart:0);
+function paintTimer(){
+  const t=elapsedNow();
+  const a=$('#tm'); if(a) a.textContent=fmt(t);
+  const m=$('#mini'); if(m){m.textContent=fmt(t);m.hidden=!(t>0)}
+  const b=$('#tmb'); if(b) b.textContent=fmt(btNow());
+}
+setInterval(()=>{
+  if(S.timer.runStart){const n=Date.now();S.timer.elapsed+=n-S.timer.runStart;S.timer.runStart=n;save()}
+  if(S.bt.runStart){const n=Date.now();S.bt.elapsed+=n-S.bt.runStart;S.bt.runStart=n;save()}
+  paintTimer();
+},500);
+
+/* ---------- ayudas de interfaz ---------- */
+let armed=null;
+function arm(name){armed=name;render();setTimeout(()=>{if(armed===name){armed=null;render()}},3500)}
+let toastT=null;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true},2600)}
+const V=p=>'<span class="src v">Visca'+(p?', p. '+p:'')+'</span>';
+const G='<span class="src g">Guía</span>';
+const A='<span class="src a">App</span>';
+function det(key,title,inner,def){
+  const o=S.ui.open[key];const open=(o===undefined?def:o);
+  return '<details class="sec" data-key="'+key+'"'+(open?' open':'')+'><summary>'+title+'</summary><div class="sec-b">'+inner+'</div></details>';
+}
+
+/* ---------- vista: GUÍA ---------- */
+function vGuia(){
+  const mats=MATERIALES.map((m,i)=>'<label class="check"><input type="checkbox" data-check="mat.'+i+'"'+(S.chk.mat[i]?' checked':'')+'><span>'+esc(m)+'</span></label>').join('');
+  const encs=ENCUADRE_CHECK.map((m,i)=>'<label class="check"><input type="checkbox" data-check="enc.'+i+'"'+(S.chk.enc[i]?' checked':'')+'><span>'+esc(m)+'</span></label>').join('');
+
+  const que=
+    '<p>'+V(44)+'Es un instrumento de estructura clínica. Su objeto de estudio son las manifestaciones cognitivo-afectivas de la conducta en situación de aprendizaje.</p>'+
+    '<p>'+V(44)+'Por eso lo que se estudia tiene dos dimensiones: una <b>energética</b> (afectiva) y otra <b>estructural</b> (cognitiva).</p>'+
+    '<p>'+V(43)+'El fundamento es que la conducta cumple una función homeostática entre el organismo y el medio. Visca cita a Piaget: toda conducta tiene dos aspectos indisociables, uno afectivo (una «economía», una energética) y otro de estructura.</p>'+
+    '<p>'+G+'En este trabajo interesa observar cómo se posiciona el niño frente a una situación de aprendizaje. El niño tiene entre 6 y 10 años, está escolarizado y no presenta dificultades de aprendizaje. Es una actividad académica: no es una evaluación diagnóstica y no hay devolución.</p>'+
+    '<p>'+G+'La EOCA se administra según la propuesta de Visca y las pautas trabajadas en clase.</p>';
+
+  const donde=
+    '<p>'+V('41-42')+'La secuencia tradicional del proceso diagnóstico tiene cinco pasos: anamnesis, tests, pruebas pedagógicas, conceptualización del caso y devolución a los padres (a veces también al niño). Visca cuestiona ese orden porque parte de preconceptos (por ejemplo, «los adultos tienen razón y los niños no») y porque los tests y las pruebas estandarizadas ponen una barrera entre quien evalúa y el niño real.</p>'+
+    '<p>'+V(42)+'Su propuesta también tiene cinco pasos, con otro orden: primero la EOCA (en lugar de las pruebas pedagógicas estandarizadas), después algunos tests según las líneas de investigación que surgieron de ella, luego una anamnesis abierta y situacional, y por último la conceptualización y la devolución.</p>'+
+    '<p>'+V(42)+'Razones de este orden: no formarse un prejuicio y dejarse «fecundar» por la realidad inmediata; convertir el miedo a lo desconocido en una fuente más para conocer al niño; y armar un sistema de hipótesis que se somete a sucesivos decantamientos. También se apoya en el principio que Piaget toma de Aristóteles: lo primero en el orden de la génesis es lo último en el orden del análisis.</p>'+
+    '<div class="tablewrap"><table class="fig"><caption class="hint" style="text-align:left">Esquema secuencial propuesto (Fig. 3, p. 42)</caption><thead><tr><th>Acciones del entrevistador</th><th>Procedimientos internos</th></tr></thead><tbody>'+
+    '<tr><td>1. EOCA</td><td>Primer sistema de hipótesis y líneas de investigación</td></tr>'+
+    '<tr><td>2. Tests</td><td>Elección de instrumentos; segundo sistema de hipótesis; líneas de investigación</td></tr>'+
+    '<tr><td>3. Anamnesis</td><td>Verificación y decantación del segundo sistema de hipótesis; formulación del tercero</td></tr>'+
+    '<tr><td>4. Elaboración del informe</td><td>Elaboración de una imagen del sujeto (irrepetible) que articula el aprendizaje con los aspectos energéticos y estructurales, ahistóricos e históricos que lo condicionan</td></tr>'+
+    '</tbody></table></div>'+
+    '<p>'+V(43)+'Las hipótesis sobre la relación entre síntoma y causas ahistóricas forman un primer sistema. Se confirman o se descartan con los tests elegidos según esas líneas de investigación, no al azar. Lo confirmado forma un segundo sistema, que abre líneas sobre la génesis y evolución de las causas y se pone a prueba en la anamnesis.</p>'+
+    '<div class="callout">'+A+'<b>Para chequear con tu docente:</b> en Visca la anamnesis viene después de la EOCA. La guía de cátedra pide la entrevista a los padres y el encuentro con el niño; consultá en qué orden hacerlos.</div>';
+
+  const antes=
+    '<p>'+V(43)+'Materiales que el niño tiene disponibles sobre el escritorio:</p><div class="matgrid">'+mats+'</div>'+
+    '<p style="margin-top:1rem">'+G+'Encuadre del encuentro:</p>'+encs+
+    '<p class="hint">Las tildes se guardan en este navegador.</p>';
+
+  const momentos=
+    '<p>'+V(44)+'Visca representa la administración en cuatro momentos (Fig. 4), como un recorrido en espiral entre quien entrevista (E) y el sujeto (S). De ese recorrido salen la temática, la dinámica y el producto.</p>'+
+    '<ol class="hilo">'+
+    '<li class="m1"><span class="nodo">1</span><h3>Delimitación e inestructuración del campo</h3>'+
+      '<p>'+V(43)+'Das la consigna inicial. Sirve para delimitar el campo sin estructurarlo desde vos: es el niño quien decide qué hacer con los materiales que tiene delante.</p>'+
+      '<div class="quote">'+esc(CONSIGNA)+'</div>'+
+      '<p>Mirá: '+G+'cómo comprende la consigna y cómo inicia. '+V(44)+'el grado de coincidencia entre los campos psicológico, de conciencia y geográfico (consigna, materiales, entrevistador).</p></li>'+
+    '<li class="m2"><span class="nodo">2</span><h3>Conducta: energético-estructural</h3>'+
+      '<p>'+V(43)+'Dejás que el niño actúe y observás lo que aparece, sin prefijarle la elección. Registrás lo que hace y lo que dice.</p>'+
+      '<p>Mirá el lado energético: '+V(44)+'cuándo aparecen, con qué intensidad y frecuencia, y si predominan o se alternan las conductas defensivas (por miedo a la confusión, al ataque y a la pérdida) y las no defensivas; y el orden y la elección de los materiales.</p>'+
+      '<p>Mirá el lado estructural: '+V(44)+'la lectura de objetos y situaciones, las estrategias de aprendizaje y las características funcionales.</p></li>'+
+    '<li class="m3"><span class="nodo">3</span><h3>Intervenciones</h3>'+
+      '<p>'+V(43)+'Intervenís cuando hace falta. Hay tres clases de intervención: para facilitar la transición entre actividades, hacia los aspectos energéticos y hacia los estructurales y funcionales (detalle más abajo).</p>'+
+      '<p>Mirá cómo responde el niño a cada una.</p></li>'+
+    '<li class="m4"><span class="nodo">4</span><h3>Modificación o no de la conducta</h3>'+
+      '<p>'+V(44)+'Observás si la conducta se modificó o no después de tu intervención.</p>'+
+      '<p>'+V(44)+'Para la evaluación práctica conviene tener en cuenta la temática, la dinámica y el producto.</p></li>'+
+    '</ol>';
+
+  const interv=
+    '<p>'+V(43)+'La EOCA consiste en una <b>consigna inicial</b> y en <b>intervenciones</b> de quien entrevista, de tres clases:</p>'+
+    '<h3>a) Facilitan la transición de una actividad a otra</h3><ul>'+
+      '<li><b>La respuesta gestual:</b> cualquier gesto tuyo cuyo sentido sea movilizar al niño.</li>'+
+      '<li><b>El modelo de alternativa múltiple:</b> enumerar un conjunto de posibilidades, de forma no taxativa.</li>'+
+      '<li><b>La proposición abierta de mostrar otra cosa:</b> no sugiere que cambie el tipo de actividad.</li>'+
+      '<li><b>La proposición cerrada de mostrar otra cosa:</b> sí sugiere que cambie el tipo de actividad.</li></ul>'+
+    '<h3>b) Dirigidas a los aspectos energéticos</h3><p>Buscan resolver situaciones emocionales del sujeto consigo mismo, con la actividad y con quien entrevista.</p>'+
+    '<h3>c) Dirigidas a los aspectos estructurales y funcionales</h3><p>Tienen en cuenta la lógica de la lectura de los objetos, las situaciones y las estrategias que hacen falta para adquirir conocimientos.</p>'+
+    '<p>'+V(43)+'Denominador común de la consigna y de las intervenciones de transición: <b>no prefijar la elección</b> del entrevistado.</p>';
+
+  const observar=
+    '<div class="cols2"><div><h3>Dimensión energética</h3><ul>'+
+      '<li>'+V(44)+'Grado de coincidencia de los campos psicológico y de conciencia con el geográfico (consigna, materiales, entrevistador).</li>'+
+      '<li>'+V(44)+'Momento de aparición, intensidad, frecuencia y predominancia o alternancia de las conductas no defensivas y defensivas por miedo a la confusión, al ataque y a la pérdida.</li>'+
+      '<li>'+V(44)+'Orden y elección de los materiales.</li></ul>'+
+      '<h3>Dimensión estructural</h3><ul><li>'+V(44)+'Lectura de objetos y situaciones.</li><li>'+V(44)+'Estrategias de aprendizaje.</li><li>'+V(44)+'Características funcionales.</li></ul>'+
+      '<p>'+V(44)+'Para la evaluación práctica: temática, dinámica y producto.</p></div>'+
+    '<div><h3>Lista de la guía de cátedra</h3><ul>'+OBS_TAGS.map(t=>'<li>'+esc(t.replace('quien entrevista','la entrevistadora'))+'</li>').join('')+'</ul></div></div>'+
+    '<p class="hint">Visca aclara que estos indicadores corresponden a la etapa actual de elaboración del instrumento.</p>';
+
+  const reg=
+    '<p>'+G+'El registro tiene que permitir reconstruir lo sucedido. Diferenciá tres cosas:</p>'+
+    '<div class="card"><p><b>Registro</b> (lo textual): «Borra dos veces lo que escribió y pregunta: ¿Está bien?»</p>'+
+    '<p><b>Observación</b> (lo que se ve): Revisa reiteradamente su producción y solicita confirmación antes de continuar.</p>'+
+    '<p><b>Hipótesis</b> (provisoria): Podría pensarse que necesita asegurarse de la corrección de su producción para poder continuar.</p></div>'+
+    '<p>'+G+'Las hipótesis deben estar fundamentadas en el material obtenido y no tienen carácter diagnóstico. Cada técnica se describe con: nombre, objetivo, material, consigna, registro de la administración, producción o resultados y observaciones. Los protocolos y producciones van en anexos.</p>';
+
+  const cierre=
+    '<p>Lo que el texto de Visca <b>no</b> detalla, y conviene completar con tus apuntes de clase:</p>'+
+    '<ul><li>Cómo se cierra la EOCA y cuánto dura. '+G+'Sí pide observar la modalidad de finalización del niño.</li>'+
+    '<li>Ejemplos de frases para las intervenciones de clase b) y c).</li>'+
+    '<li>Qué significan exactamente temática, dinámica y producto.</li>'+
+    '<li>En el PDF, el rótulo del tercer momento de la Fig. 4 se lee mal; aquí se interpretó según las tres clases de intervención de la p. 43.</li></ul>'+
+    '<p>El Bender tiene su propia pestaña, con guía de administración, registro y puntuación opcional.</p>';
+
+  return '<div class="wrap"><h1>Cómo se administra la EOCA</h1>'+
+    '<p class="lede">Entrevista Operativa Centrada en el Aprendizaje, según Jorge Visca y la guía del trabajo de campo. Cada dato indica de dónde sale.</p>'+
+    '<p class="hint">'+V()+'texto de Visca. '+G+'guía de la cátedra. '+A+'sugerencia de esta herramienta, no del texto.</p>'+
+    det('g-que','Qué es y qué mira',que,true)+
+    det('g-antes','Antes de empezar',antes,true)+
+    det('g-momentos','Los cuatro momentos',momentos,true)+
+    det('g-interv','Tus intervenciones',interv,true)+
+    det('g-observar','Qué observar',observar,false)+
+    det('g-reg','Registro, observación e hipótesis',reg,false)+
+    det('g-donde','Dónde entra en el proceso diagnóstico',donde,false)+
+    det('g-cierre','Lo que el texto no dice',cierre,false)+
+    '<div class="btns"><button type="button" class="btn" data-act="goto" data-arg="sesion">Ir a la sesión</button></div></div>';
+}
+
+/* ---------- vista: SESIÓN ---------- */
+function encCount(){return ENC_FIELDS.filter(f=>String(S.enc[f.k]||'').trim()).length}
+function encForm(){
+  return ENC_FIELDS.map(f=>{
+    let out='';
+    if(f.g) out+='<h3 style="margin-top:1rem">'+esc(f.g)+'</h3>';
+    const id='enc-'+f.k;
+    out+='<label class="lbl" for="'+id+'">'+esc(f.l)+'</label>';
+    if(f.t==='area') out+='<textarea id="'+id+'" data-bind="enc.'+f.k+'" rows="2">'+esc(S.enc[f.k])+'</textarea>';
+    else out+='<input id="'+id+'" type="'+f.t+'" data-bind="enc.'+f.k+'" value="'+esc(S.enc[f.k])+'"'+(f.ph?' placeholder="'+esc(f.ph)+'"':'')+' autocomplete="off">';
+    if(f.h) out+='<div class="hint">'+esc(f.h)+'</div>';
+    return out;
+  }).join('');
+}
+function timerCard(){
+  const r=!!S.timer.runStart, e=S.timer.elapsed>0;
+  const rst=armed==='timer';
+  return '<div class="card"><div class="tm" id="tm">'+fmt(elapsedNow())+'</div>'+
+    '<div class="btns"><button type="button" class="btn" data-act="timerToggle">'+(r?'Pausar':(e?'Seguir':'Iniciar'))+'</button>'+
+    '<button type="button" class="btn ghost'+(rst?' warn':'')+'" data-act="timerReset">'+(rst?'¿Poner en cero?':'Reiniciar')+'</button></div>'+
+    '<p class="hint">Cada registro guarda el tiempo del cronómetro. Si no lo usás, guarda la hora del reloj.</p></div>';
+}
+function entryCard(){
+  const d=S.draft,k=S.ui.kind,m=S.ui.moment,ed=!!S.editId;
+  const mom=MOM.map(x=>'<button type="button" class="momb m'+x.n+'" data-act="setMoment" data-arg="'+x.n+'" aria-pressed="'+(m===x.n)+'"><b>'+x.n+'</b>'+esc(x.corto)+'</button>').join('');
+  const mats=MATERIALES.map((x,i)=>'<button type="button" class="chip" data-act="addMat" data-arg="'+i+'">'+esc(x)+'</button>').join('');
+  let campos='';
+  if(k==='yo'){
+    campos+='<label class="lbl" for="d-cls">Clase de intervención</label><select id="d-cls" data-bind="draft.cls" data-rerender="1">'+
+      Object.keys(CLSL).map(c=>'<option value="'+c+'"'+(d.cls===c?' selected':'')+'>'+esc((c==='a'?'a) ':c==='b'?'b) ':c==='c'?'c) ':'')+CLSL[c])+'</option>').join('')+'</select>';
+    if(d.cls==='a'){
+      campos+='<label class="lbl" for="d-tipo">Tipo</label><select id="d-tipo" data-bind="draft.tipo"><option value="">Sin especificar</option>'+
+        TIPOS_A.map(t=>'<option'+(d.tipo===t?' selected':'')+'>'+esc(t)+'</option>').join('')+'</select>';
+    }
+    if(d.cls==='consigna') campos+='<div class="btns" style="margin-top:.5rem"><button type="button" class="btn ghost small" data-act="insertConsigna">Insertar el texto de la consigna</button></div>';
+  }
+  campos+='<label class="lbl" for="d-reg">Registro: '+(k==='yo'?'lo que dije o hice':'lo que hizo o dijo, textual')+'</label><textarea id="d-reg" data-bind="draft.reg" rows="3">'+esc(d.reg)+'</textarea>';
+  campos+='<label class="lbl" for="d-obs">Observación: qué se ve en esa conducta</label><textarea id="d-obs" data-bind="draft.obs" rows="2">'+esc(d.obs)+'</textarea>';
+  campos+='<label class="lbl" for="d-hip">Hipótesis: provisoria, opcional</label><textarea id="d-hip" data-bind="draft.hip" rows="2">'+esc(d.hip)+'</textarea>';
+  if(k==='nino'){
+    const opts=[['','Sin marcar'],['nodef','No defensiva'],['confusion','Miedo a la confusión'],['ataque','Miedo al ataque'],['perdida','Miedo a la pérdida']];
+    campos+='<span class="lbl">Tipo de conducta</span><div class="chips" role="radiogroup" aria-label="Tipo de conducta">'+
+      opts.map(o=>'<label class="rchip"><input type="radio" name="def" data-bind="draft.def" data-rerender="1" value="'+o[0]+'"'+(d.def===o[0]?' checked':'')+'><span>'+esc(o[1])+'</span></label>').join('')+'</div>';
+    if(d.def&&d.def!=='nodef'){
+      campos+='<span class="lbl">Intensidad de la conducta defensiva</span><div class="chips" role="radiogroup" aria-label="Intensidad">'+
+        ['baja','media','alta'].map(x=>'<label class="rchip"><input type="radio" name="int" data-bind="draft.int" value="'+x+'"'+(d.int===x?' checked':'')+'><span>'+x+'</span></label>').join('')+'</div>';
+    }
+  }
+  const tags='<div class="chips" style="margin-top:.4rem">'+OBS_TAGS.map((t,i)=>'<button type="button" class="chip" data-act="toggleTag" data-arg="'+i+'" aria-pressed="'+(d.tags.indexOf(t)>-1)+'">'+esc(t)+'</button>').join('')+'</div>';
+  return '<div class="card"><h2>'+(ed?'Editando un registro':'Nuevo registro')+'</h2>'+
+    '<span class="lbl">Momento actual</span><div class="moms">'+mom+'</div><p class="hint">'+esc(MOM[m-1].hint)+'</p>'+
+    '<span class="lbl">Quién actúa</span><div class="seg"><button type="button" data-act="setKind" data-arg="nino" aria-pressed="'+(k==='nino')+'">El niño</button><button type="button" data-act="setKind" data-arg="yo" aria-pressed="'+(k==='yo')+'">Yo</button></div>'+
+    campos+
+    det('tags','Etiquetas: qué aspecto observás',tags,false)+
+    '<div class="btns"><button type="button" class="btn" data-act="addEntry">'+(ed?'Guardar cambios':'Agregar al registro')+'</button>'+(ed?'<button type="button" class="btn ghost" data-act="cancelEdit">Cancelar</button>':'')+'</div>'+
+    '<span class="lbl" style="margin-top:1.2rem">Material que toma el niño (un toque lo registra)</span><div class="chips">'+mats+'</div></div>';
+}
+function entryHtml(e){
+  const m=MOM[e.moment-1];
+  const tm=e.t!=null?fmt(e.t):('hora '+esc(e.clock));
+  let extra='';
+  if(e.kind==='yo') extra=CLSL[e.cls]+(e.tipo?': '+e.tipo:'');
+  if(e.kind==='nino'&&e.def) extra=DEFL[e.def]+(e.int?' (intensidad '+e.int+')':'');
+  const del=armed==='del:'+e.id;
+  return '<div class="ent m'+e.moment+'"><div class="ent-h"><b>'+tm+'</b><span>Momento '+e.moment+': '+esc(m.corto)+'</span><span>'+KIND[e.kind]+'</span></div>'+
+    (extra?'<p class="tagline">'+esc(extra)+'</p>':'')+
+    (e.reg?'<p><span class="k">Registro:</span> '+nl(e.reg)+'</p>':'')+
+    (e.obs?'<p><span class="k">Observación:</span> '+nl(e.obs)+'</p>':'')+
+    (e.hip?'<p><span class="k">Hipótesis:</span> '+nl(e.hip)+'</p>':'')+
+    (e.tags&&e.tags.length&&e.kind!=='mat'?'<p class="tagline">Etiquetas: '+esc(e.tags.join(', '))+'</p>':'')+
+    '<div class="btns" style="margin-top:.4rem">'+
+    (e.kind==='mat'?'':'<button type="button" class="btn ghost small" data-act="editEntry" data-arg="'+e.id+'">Editar</button>')+
+    (del?'<button type="button" class="btn warn small" data-act="delEntry" data-arg="'+e.id+'">Sí, eliminar</button><button type="button" class="btn ghost small" data-act="disarm">No</button>':'<button type="button" class="btn ghost small" data-act="delEntry" data-arg="'+e.id+'">Eliminar</button>')+
+    '</div></div>';
+}
+function logCard(){
+  const list=S.entries.slice().reverse().map(entryHtml).join('');
+  return '<div><h2>Registro de la sesión <span class="prog">'+S.entries.length+' '+(S.entries.length===1?'entrada':'entradas')+'</span></h2>'+
+    (list||'<div class="empty" style="margin-top:.6rem">Todavía no hay registros. Iniciá el cronómetro, elegí el momento y anotá lo que ves.</div>')+'</div>';
+}
+function vSesion(){
+  return '<div class="wrap wide"><h1>Sesión con el niño</h1>'+
+    '<p class="lede">Registrá durante el encuentro. Los datos se guardan en este navegador'+(CLOUD_ON?' y, si lo activás, en tu nube':'')+'. Usá siempre un nombre ficticio.</p>'+
+    '<div class="cols"><div>'+
+    det('enc','Encuadre y datos generales<span class="prog">'+encCount()+' de '+ENC_FIELDS.length+' completos</span>','<div style="padding-top:.2rem">'+encForm()+'</div>',false)+
+    timerCard()+entryCard()+
+    '</div><div>'+logCard()+'</div></div></div>';
+}
+
+/* ---------- estadísticas del registro ---------- */
+function stats(){
+  const E=S.entries;
+  const perMoment=[1,2,3,4].map(n=>E.filter(e=>e.moment===n).length);
+  const interv={consigna:0,a:0,b:0,c:0},tipos={};
+  E.filter(e=>e.kind==='yo').forEach(e=>{interv[e.cls]=(interv[e.cls]||0)+1;if(e.tipo)tipos[e.tipo]=(tipos[e.tipo]||0)+1});
+  const seq=E.filter(e=>e.kind==='nino'&&e.def);
+  const def={nodef:0,confusion:0,ataque:0,perdida:0},int={baja:0,media:0,alta:0};
+  seq.forEach(e=>{def[e.def]++;if(e.int)int[e.int]++});
+  const first=seq.filter(e=>e.def!=='nodef')[0];
+  const mats=E.filter(e=>e.kind==='mat');
+  const tags={};E.forEach(e=>{if(e.kind!=='mat')(e.tags||[]).forEach(t=>{tags[t]=(tags[t]||0)+1})});
+  const tm=e=>e.t!=null?fmt(e.t):e.clock;
+  return {perMoment,interv,tipos,seq,def,int,first,mats,tags,tm,total:E.length};
+}
+function autoDef(st){
+  const df=st.def.confusion+st.def.ataque+st.def.perdida;
+  if(!st.seq.length) return '<p class="hint">Todavía no marcaste conductas como defensivas o no defensivas en el registro.</p>';
+  return '<div class="stat"><span><b>Defensivas:</b> '+df+' (confusión '+st.def.confusion+', ataque '+st.def.ataque+', pérdida '+st.def.perdida+')</span><span><b>No defensivas:</b> '+st.def.nodef+'</span>'+
+    (df?'<span><b>Intensidad:</b> baja '+st.int.baja+', media '+st.int.media+', alta '+st.int.alta+'</span>':'')+
+    (st.first?'<span><b>Primera defensiva:</b> '+esc(st.tm(st.first))+' ('+DEFS[st.first.def]+')</span>':'')+'</div>'+
+    '<p class="hint" style="margin-bottom:.1rem">Secuencia, para ver predominancia y alternancia:</p><div>'+
+    st.seq.map(e=>'<span class="dch '+(e.def==='nodef'?'nd':'df')+'" title="'+esc(DEFL[e.def])+'">'+esc(st.tm(e))+' '+DEFS[e.def]+(e.int?' ('+e.int+')':'')+'</span>').join('')+'</div>';
+}
+function autoMat(st){
+  if(!st.mats.length) return '<p class="hint">Todavía no registraste materiales con los botones de la sesión.</p>';
+  return '<p class="hint" style="margin-bottom:.1rem">Orden en que los tomó:</p><ol style="margin-top:0">'+st.mats.map(e=>'<li>'+esc(e.mat)+' <span class="hint">('+esc(st.tm(e))+', momento '+e.moment+')</span></li>').join('')+'</ol>'+
+    '<p class="hint">No usó: '+(MATERIALES.filter(m=>!st.mats.some(e=>e.mat===m)).map(esc).join(', ')||'ninguno quedó sin usar')+'.</p>';
+}
+
+/* ---------- vista: BENDER ---------- */
+const BU=p=>'<span class="src v">UCSE'+(p?', p. '+p:'')+'</span>';
+const BPR='<span class="src v">Protocolo</span>';
+const BMA='<span class="src v">Manual</span>';
+const btNow=()=>S.bt.elapsed+(S.bt.runStart?Date.now()-S.bt.runStart:0);
+function benTime(){
+  const t=btNow();
+  if(t<=0) return '<p class="hint">Cuando midas el tiempo, acá aparece la comparación con el intervalo crítico del protocolo.</p>';
+  const a=parseInt(S.ben.edA,10),m=parseInt(S.ben.edM,10)||0;
+  if(isNaN(a)) return '<p class="hint">Cargá la edad del niño para compararlo con el intervalo crítico.</p>';
+  const mo=a*12+m,min=t/60000;
+  if(mo<60||mo>=132) return '<p class="hint">La tabla del protocolo cubre de 5 a 10 años.</p>';
+  let lo,hi;
+  if(mo<66){lo=3;hi=10}else if(mo<72){lo=4;hi=10}else if(mo<108){lo=4;hi=9}else{lo=4;hi=8}
+  let r;
+  if(min>hi) r='<b>Largo.</b> El protocolo lo asocia con lentitud, perfeccionismo o esfuerzo para compensar dificultades perceptivo-motoras.';
+  else if(min<lo) r='<b>Corto.</b> El protocolo lo asocia con impulsividad, falta de concentración y bajo rendimiento escolar (o alta capacidad).';
+  else r='<b>Dentro del intervalo.</b> El tiempo solo es significativo cuando termina fuera de los límites críticos.';
+  return '<p>Tiempo: '+fmt(t)+'. Intervalo crítico para su edad: de '+lo+' a '+hi+' minutos.</p><p>'+r+'</p>'+
+    '<p class="hint">'+A+'Entre 8 años y medio y 9 años la tabla no aclara el intervalo; se usó de 4 a 9. Tomalo como una pista para pensar, no como una conclusión.</p>';
+}
+function bTimerCard(){
+  const r=!!S.bt.runStart,e=S.bt.elapsed>0,rst=armed==='btimer';
+  return '<div class="card"><h2>Tiempo</h2><div class="tm" id="tmb">'+fmt(btNow())+'</div>'+
+    '<div class="btns"><button type="button" class="btn" data-act="btToggle">'+(r?'Pausar':(e?'Seguir':'Iniciar'))+'</button>'+
+    '<button type="button" class="btn ghost'+(rst?' warn':'')+'" data-act="btReset">'+(rst?'¿Poner en cero?':'Reiniciar')+'</button></div>'+
+    '<p class="hint">'+BU(18)+'Se mide desde que entregás la tarjeta A hasta que el niño termina la figura 8.</p>'+
+    '<div class="g2"><div><label class="lbl" for="b-eda">Edad: años</label><input id="b-eda" type="number" min="0" max="20" inputmode="numeric" data-bind="ben.edA" value="'+esc(S.ben.edA)+'"></div>'+
+    '<div><label class="lbl" for="b-edm">Meses</label><input id="b-edm" type="number" min="0" max="11" inputmode="numeric" data-bind="ben.edM" value="'+esc(S.ben.edM)+'"></div></div>'+
+    '<div style="margin-top:.6rem">'+benTime()+'</div></div>';
+}
+function sel(path,label,id,opts,cur){
+  return '<div><label class="lbl" for="'+id+'">'+esc(label)+'</label><select id="'+id+'" data-bind="'+path+'"><option value="">Sin dato</option>'+opts.map(o=>'<option'+(cur===o?' selected':'')+'>'+o+'</option>').join('')+'</select></div>';
+}
+function bCondCard(){
+  const c=S.ben.cond;
+  return '<p class="hint">'+BU(37)+'Ficha de administración de la UCSE, más el tipo de orientación del papel.</p><div class="g2">'+
+    sel('ben.cond.modo','Modo de trabajo','bc-modo',['Lento','Rápido'],c.modo)+
+    sel('ben.cond.papel','Papel','bc-papel',['Vertical','Horizontal'],c.papel)+
+    B_COND.map(x=>sel('ben.cond.'+x[0],x[1],'bc-'+x[0],['Sí','No'],c[x[0]])).join('')+'</div>'+
+    '<label class="lbl" for="bc-gt">Gesto llamativo: especificá</label><input id="bc-gt" type="text" data-bind="ben.cond.gestoTxt" value="'+esc(c.gestoTxt)+'">'+
+    '<label class="lbl" for="bc-ot">Otros</label><input id="bc-ot" type="text" data-bind="ben.cond.otros" value="'+esc(c.otros)+'">';
+}
+function bEntryCard(){
+  const d=S.ben.draft,f=S.ui.bfig,ed=!!S.ben.editId;
+  const figs=BFIGS.map(x=>'<button type="button" class="chip" data-act="setFig" data-arg="'+x+'" aria-pressed="'+(f===x)+'"'+(x==='general'?'':' aria-label="Figura '+x+'"')+'>'+(x==='general'?'General':x)+'</button>').join('');
+  const tags='<div class="chips" style="margin-top:.4rem">'+B_TAGS.map((t,i)=>'<button type="button" class="chip" data-act="toggleBTag" data-arg="'+i+'" aria-pressed="'+(d.tags.indexOf(t)>-1)+'">'+esc(t)+'</button>').join('')+'</div>';
+  return '<div class="card"><h2>'+(ed?'Editando un registro':'Nuevo registro')+'</h2>'+
+    '<span class="lbl">Figura</span><div class="chips">'+figs+'</div>'+
+    '<label class="lbl" for="bd-reg">Registro: lo que hizo o dijo, textual</label><textarea id="bd-reg" data-bind="ben.draft.reg" rows="3">'+esc(d.reg)+'</textarea>'+
+    '<label class="lbl" for="bd-obs">Observación: qué se ve</label><textarea id="bd-obs" data-bind="ben.draft.obs" rows="2">'+esc(d.obs)+'</textarea>'+
+    '<label class="lbl" for="bd-hip">Hipótesis: provisoria, opcional</label><textarea id="bd-hip" data-bind="ben.draft.hip" rows="2">'+esc(d.hip)+'</textarea>'+
+    det('btags','Etiquetas: qué aspecto observás',tags,false)+
+    '<div class="btns"><button type="button" class="btn" data-act="addBEntry">'+(ed?'Guardar cambios':'Agregar al registro')+'</button>'+(ed?'<button type="button" class="btn ghost" data-act="cancelBEdit">Cancelar</button>':'')+'</div></div>';
+}
+function bEntryHtml(e){
+  const tm=e.t!=null?fmt(e.t):('hora '+esc(e.clock));
+  const del=armed==='bdel:'+e.id;
+  return '<div class="ent m1"><div class="ent-h"><b>'+tm+'</b><span>'+(e.fig==='general'?'General':'Figura '+esc(e.fig))+'</span></div>'+
+    (e.reg?'<p><span class="k">Registro:</span> '+nl(e.reg)+'</p>':'')+
+    (e.obs?'<p><span class="k">Observación:</span> '+nl(e.obs)+'</p>':'')+
+    (e.hip?'<p><span class="k">Hipótesis:</span> '+nl(e.hip)+'</p>':'')+
+    (e.tags&&e.tags.length?'<p class="tagline">Etiquetas: '+esc(e.tags.join(', '))+'</p>':'')+
+    '<div class="btns" style="margin-top:.4rem"><button type="button" class="btn ghost small" data-act="editBEntry" data-arg="'+e.id+'">Editar</button>'+
+    (del?'<button type="button" class="btn warn small" data-act="delBEntry" data-arg="'+e.id+'">Sí, eliminar</button><button type="button" class="btn ghost small" data-act="disarm">No</button>':'<button type="button" class="btn ghost small" data-act="delBEntry" data-arg="'+e.id+'">Eliminar</button>')+'</div></div>';
+}
+function bLogCard(){
+  const E=S.ben.entries,list=E.slice().reverse().map(bEntryHtml).join('');
+  return '<div><h2>Registro del Bender <span class="prog">'+E.length+' '+(E.length===1?'entrada':'entradas')+'</span></h2>'+
+    (list||'<div class="empty" style="margin-top:.6rem">Todavía no hay registros. Anotá lo que ves figura por figura.</div>')+'</div>';
+}
+const scoreTotal=()=>BITEMS.filter(it=>S.ben.sc[it[1]]).length;
+function scoreSummary(){
+  const n=scoreTotal(),done=!!S.ben.sc._done;
+  const edad=(S.ben.edA!==''?S.ben.edA+' años'+(S.ben.edM!==''?' '+S.ben.edM+' meses':''):'sin cargar');
+  return '<p><b>Puntaje de errores:</b> '+n+' de 30.</p>'+
+    (done?'<p><b>Edad de maduración visomotriz</b> (tabla del protocolo): '+esc(MAD[Math.min(n,21)])+'.</p><p><b>Edad cronológica:</b> '+esc(edad)+'.</p>':'<p class="hint">Cuando termines de puntuar, tildá «Terminé de puntuar» para ver la edad de maduración. Si no hay errores, el puntaje es 0.</p>');
+}
+function scoreHtml(){
+  let cur='',out='';
+  BITEMS.forEach(it=>{
+    if(it[0]!==cur){cur=it[0];out+='<h3 style="margin-top:1rem">Figura '+cur+'</h3>'}
+    out+='<label class="check"><input type="checkbox" data-bcheck="'+it[1]+'"'+(S.ben.sc[it[1]]?' checked':'')+'><span><b>'+it[1]+'.</b> '+esc(it[2])+'</span></label>';
+  });
+  return out;
+}
+const emoCount=()=>EMO.filter(e=>S.ben.emo[e.n]).length;
+function emoHtml(){
+  return EMO.map(e=>'<label class="check"><input type="checkbox" data-echeck="'+e.n+'"'+(S.ben.emo[e.n]?' checked':'')+'><span><b>'+e.n+'. '+esc(e.t)+'.</b> '+esc(e.c)+' <span class="hint">Asociado en la fuente a: '+esc(e.a)+'.</span></span></label>').join('');
+}
+function vBender(){
+  const que=
+    '<p>'+BU('2-3')+'Consiste en reproducir gráficamente nueve figuras gestálticas, presentadas de a una, con el modelo a la vista. Lo creó la psiquiatra Lauretta Bender (1938) sobre la base de la teoría de la Gestalt. Con niños se usa la escala de maduración de Elizabeth Koppitz (1968).</p>'+
+    '<p>'+BU(7)+'Permite estimar el grado de madurez de la función gestáltica visomotora entre los 4 y los 11 años. Esa función se asocia con el lenguaje y con la percepción visual, la habilidad motora manual, la memoria, los conceptos temporales y espaciales y la capacidad de organización.</p>'+
+    '<p>'+BU('7-8')+'Koppitz agrupa los errores madurativos en cuatro categorías: distorsión de la forma, rotación, integración de las partes y perseveración. Con un segundo sistema de puntaje se observan además los indicadores emocionales.</p>'+
+    '<p>'+G+'En este trabajo interesa ver cómo se desenvuelve el niño frente a una propuesta más estructurada que la EOCA. La guía pide registrar lo observado y no hacer diagnóstico; la puntuación es opcional.</p>'+
+    '<div class="callout">'+A+'La EOCA deja que el niño elija; en el Bender la consigna y el modelo están dados. La guía de cátedra pide comparar cómo se posicionó en cada situación.</div>';
+  const adm=
+    '<ol>'+
+    '<li>'+BMA+'Establecé rapport con el niño antes de empezar.</li>'+
+    '<li>'+BMA+'Materiales: las nueve tarjetas (A y 1 a 8), dos hojas tamaño carta (similar a A4), un lápiz n.° 2 y una goma de borrar.</li>'+
+    '<li>'+BMA+'Consigna: «'+esc(BCONSIGNA)+'» Podés adaptar las palabras a tu forma de hablar.</li>'+
+    '<li>'+BMA+'Esperá a que el niño acomode el papel y recién entonces poné la tarjeta A frente a él. Koppitz recomienda el papel en posición vertical; otros autores prefieren la horizontal. Anotá cuál usaste.</li>'+
+    '<li>'+BMA+'Cuando termina una figura, retirá la tarjeta y poné la siguiente, hasta la figura 8. No hagas comentarios; anotá la conducta del niño.</li>'+
+    '<li>'+BMA+'Si pregunta por el número de puntos o el tamaño, respondé de forma neutral (algo como «hacelo lo más parecido que puedas»). No lo alientes ni le impidas usar la goma o hacer varios intentos.</li>'+
+    '<li>'+BMA+'Si empieza a contar los puntos, podés decirle que no hace falta y que trate de hacerlo lo más parecido. Si insiste, el manual le da significación diagnóstica (rasgo perfeccionista u obsesivo): registralo.</li>'+
+    '<li>'+BMA+BU(11)+'Si llena la hoja y la gira para ubicar la figura 8, no se computa como rotación, pero se registra.</li>'+
+    '<li>'+BMA+'Si creés que fue muy rápido o no lo hizo lo mejor posible, podés pedirle que repita una figura en otra hoja, anotándolo en el protocolo.</li>'+
+    '<li>'+BU(18)+'No hay tiempo límite, pero el tiempo se registra, porque es significativo cuando excede los límites críticos de su edad.</li></ol>'+
+    '<p>'+G+'Además de lo específico del test, registrá cómo se desenvuelve el niño frente a una tarea estructurada: '+B_TAGS.map(t=>esc(t.toLowerCase())).join(', ')+'.</p>'+
+    '<p>'+A+'Guardá las hojas originales o fotocopias para los anexos. Escribí en ellas solo el nombre ficticio.</p>'+
+    '<div class="callout">'+A+'<b>Chequeá con tu cátedra:</b> estas pautas de administración salen de manuales que circulan en línea (el enlace de SlideShare no se abría directamente, se leyó su contenido por otra vía). El libro de la UCSE no detalla la consigna. Si tus apuntes de clase difieren, seguí los de clase.</div>';
+  const punt=
+    '<p>'+BPR+'Cada ítem se puntúa presente (1) o ausente (0). En caso de duda, no se computa. El protocolo indica un máximo de 30 puntos porque los subítems a y b se puntúan por separado; la ficha de la UCSE los agrupa bajo 25 números.</p>'+
+    '<p class="hint">Los criterios están resumidos con mis palabras; para dudas de puntuación usá tu manual.</p>'+
+    '<div class="card" id="bsc-sum">'+scoreSummary()+'</div>'+scoreHtml()+
+    '<label class="check" style="margin-top:1rem"><input type="checkbox" data-bcheck="_done"'+(S.ben.sc._done?' checked':'')+'><span>Terminé de puntuar</span></label>'+
+    '<div class="callout">'+A+'<b>Sobre los baremos:</b> el libro de la UCSE presenta percentiles de Santiago del Estero y advierte que conviene comparar al niño con chicos de su mismo contexto sociocultural. Menciona baremos de CABA y conurbano (Carreras y otros, 2011; Pelorosso y Etchevers, 2006), pero no trae sus tablas. Esta app no calcula percentiles: usá los que trabajó tu cátedra. Recordá que la actividad no es diagnóstica.</div>';
+  const emo=
+    '<p>'+BU(22)+'No es necesario puntuarlos. Koppitz planteaba considerar tres indicadores entre los 5 y 7 años y dos entre los 8 y 10, pero hoy se recomienda una mirada global: conducta durante la prueba, errores madurativos, indicadores emocionales y el resto de la batería.</p>'+
+    '<p>'+BU(22)+'Según Carreras, ningún indicador, ni todos juntos, alcanza para un diagnóstico; aportan evidencia que, junto con recurrencias y convergencias, ayuda a llegar a un diagnóstico dentro de un proceso.</p>'+
+    '<p class="hint">El protocolo lista 12 indicadores y su regla de corte (3 o más); el libro de la UCSE lista 13 y agrega la constricción. Consultá cuál usa tu cátedra.</p>'+
+    '<div class="card"><b id="emo-count">Indicadores marcados: '+emoCount()+'</b></div>'+emoHtml();
+  const ana=
+    '<label class="lbl" for="b-ana">Cómo se desenvolvió frente a una propuesta estructurada</label>'+
+    '<p class="hint">'+G+'Podés apoyarte en la comprensión de la consigna, la modalidad de inicio, la organización, la atención, la autonomía, las verbalizaciones, los pedidos de ayuda, la actitud frente a las dificultades, las revisiones y la modalidad de finalización. La comparación con la EOCA va en la pestaña Análisis.</p>'+
+    '<textarea id="b-ana" data-bind="ben.ana.desenv" rows="4">'+esc(S.ben.ana.desenv)+'</textarea>';
+  return '<div class="wrap wide"><h1>Test de Bender (Koppitz)</h1>'+
+    '<p class="lede">Guía de administración, registro, puntuación opcional e indicadores emocionales. Cada dato indica de dónde sale.</p>'+
+    '<p class="hint">'+BU()+'libro de Medina y Pacheco. '+BPR+'protocolo Bender-Koppitz. '+BMA+'manual en línea. '+G+'guía de la cátedra. '+A+'sugerencia de esta herramienta.</p>'+
+    '<div style="max-width:46rem">'+det('b-que','Qué es y qué mide',que,true)+det('b-adm','Cómo se administra',adm,true)+'</div>'+
+    '<h2 style="margin:1.2rem 0 .6rem">Registro de la administración</h2>'+
+    '<div class="cols"><div>'+bTimerCard()+
+    det('b-cond','Conducta durante la prueba',bCondCard(),false)+bEntryCard()+'</div><div>'+bLogCard()+'</div></div>'+
+    '<div style="max-width:46rem;margin-top:1rem">'+det('b-punt','Puntuación de errores madurativos (opcional)',punt,false)+det('b-emo','Indicadores emocionales',emo,false)+
+    '<div class="card" style="margin-top:1rem"><h2>Tu lectura del Bender</h2>'+ana+'</div></div></div>';
+}
+
+/* ---------- vista: ANÁLISIS ---------- */
+function vAnalisis(){
+  const st=stats();
+  const barCells=st.total?st.perMoment.map((n,i)=>n?'<i class="m'+(i+1)+'" style="width:'+(n/st.total*100)+'%"></i>':'').join(''):'';
+  const resumen=
+    '<div class="card"><h2>Resumen de tu registro</h2>'+
+    (st.total?
+      '<div class="bar" role="img" aria-label="Entradas por momento">'+barCells+'</div>'+
+      '<div class="stat">'+MOM.map((m,i)=>'<span class="m'+(i+1)+'"><b style="border-bottom:3px solid var(--mc)">Momento '+m.n+'</b>: '+st.perMoment[i]+'</span>').join('')+'</div>'+
+      '<p><b>Duración:</b> '+(S.timer.elapsed>0?fmt(S.timer.elapsed):'sin cronómetro')+'. <b>Entradas:</b> '+st.total+'.</p>'+
+      '<p><b>Mis intervenciones:</b> consigna inicial '+st.interv.consigna+'; transición '+st.interv.a+
+        (Object.keys(st.tipos).length?' ('+Object.keys(st.tipos).map(t=>esc(t.toLowerCase())+' '+st.tipos[t]).join(', ')+')':'')+
+        '; energéticas '+st.interv.b+'; estructurales y funcionales '+st.interv.c+'.</p>'+
+      (Object.keys(st.tags).length?'<p class="hint">Etiquetas más usadas: '+Object.keys(st.tags).sort((a,b)=>st.tags[b]-st.tags[a]).slice(0,6).map(t=>esc(t)+' ('+st.tags[t]+')').join(', ')+'.</p>':'')
+    :'<div class="empty">Cuando registres la sesión, acá aparece el resumen.</div>')+
+    '<p class="hint">'+A+'Los conteos ordenan tu registro; interpretarlos es tu trabajo.</p></div>';
+
+  const blocks=ANA_FIELDS.map(f=>{
+    const auto=f.auto==='def'?autoDef(st):f.auto==='mat'?autoMat(st):'';
+    return '<div class="card"><h3>'+esc(f.t)+'</h3><p class="hint"><span class="src v">'+esc(f.s)+'</span>'+esc(f.h)+'</p>'+auto+
+      '<textarea data-bind="ana.'+f.k+'" rows="3" aria-label="'+esc(f.t)+'">'+esc(S.ana[f.k])+'</textarea></div>';
+  }).join('');
+
+  const tdp=
+    '<div class="card"><h3>Temática, dinámica y producto</h3><p class="hint"><span class="src v">Visca, p. 44</span>El texto los nombra para la evaluación práctica, pero no los define. Completalos con lo trabajado en clase.</p>'+
+    '<p class="hint">'+A+'Orientación posible: temática, qué eligió hacer; dinámica, cómo se fue desarrollando; producto, qué produjo.</p>'+
+    ['tematica|Temática','dinamica|Dinámica','producto|Producto'].map(x=>{const a=x.split('|');return '<label class="lbl" for="a-'+a[0]+'">'+a[1]+'</label><textarea id="a-'+a[0]+'" data-bind="ana.'+a[0]+'" rows="3">'+esc(S.ana[a[0]])+'</textarea>'}).join('')+'</div>';
+
+  const cierre=
+    '<div class="card"><h3>EOCA y Bender: qué aparece en ambos</h3><p class="hint">'+G+'¿Qué aspectos aparecen en más de una instancia? ¿Qué diferencias se observan? ¿Cómo se desenvolvió el niño frente a una situación abierta (EOCA) y frente a una más estructurada (Bender)?</p><textarea data-bind="ana.integracion" rows="4" aria-label="EOCA y Bender">'+esc(S.ana.integracion)+'</textarea></div>'+
+    '<div class="card"><h3>Hipótesis provisorias e interrogantes</h3><p class="hint">'+G+'Las hipótesis se fundamentan en el material y no tienen carácter diagnóstico. Seleccioná fragmentos significativos de la entrevista, la EOCA y el Bender.</p>'+
+    '<label class="lbl" for="a-hip">Hipótesis provisorias</label><textarea id="a-hip" data-bind="ana.hipotesis" rows="4">'+esc(S.ana.hipotesis)+'</textarea>'+
+    '<label class="lbl" for="a-int">Interrogantes y aspectos a seguir explorando si fuera un proceso diagnóstico</label><textarea id="a-int" data-bind="ana.interrogantes" rows="3">'+esc(S.ana.interrogantes)+'</textarea></div>'+
+    det('a-preg','Preguntas de la guía para integrar el material','<ul>'+
+      ['¿Qué aspectos aparecen en más de una instancia?','¿Qué diferencias se observan?','¿Cómo se desenvolvió el niño frente a una situación relativamente abierta como la EOCA y frente a una más estructurada como el Bender?','¿Qué información de la entrevista permite contextualizar lo observado?','¿Qué interrogantes surgen?','¿Qué aspectos sería necesario continuar explorando si se tratara de un proceso diagnóstico?'].map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>',false);
+
+  return '<div class="wrap"><h1>Análisis de la EOCA</h1><p class="lede">Ordená lo que registraste según los indicadores de Visca. Lo que escribís se guarda solo.</p>'+resumen+blocks+tdp+cierre+'</div>';
+}
+
+/* ---------- vista: MARCO ---------- */
+function vMarco(){
+  const p1=
+    '<p>'+V('36-37')+'El aprendizaje es una construcción intrapsíquica con continuidad genética y diferencias evolutivas, que resulta de las precondiciones energético-estructurales del sujeto y de las circunstancias del medio. Tiene cuatro niveles (Fig. 1):</p><ul>'+
+    '<li><b>Protoaprendizaje:</b> construcción de una pauta de reacción vincular. Va desde el nacimiento hasta que el niño empieza a contactar directamente con su grupo familiar. La madre es su objeto por excelencia. Los procesos intrapsíquico e interpsíquico atraviesan toda la vida y tienen tres momentos: indiscriminación, discriminación e integración.</li>'+
+    '<li><b>Deuteroaprendizaje:</b> aprehensión de la cosmovisión del grupo familiar. El niño toma como objeto a los miembros de la familia y a las relaciones entre ellos y con los objetos, según una escala de valores.</li>'+
+    '<li><b>Aprendizaje asistemático:</b> producto de las interacciones con la comunidad restringida. Permite desempeñarse en la sociedad sin poseer los conocimientos que las instituciones educativas de nivel primario imponen.</li>'+
+    '<li><b>Aprendizaje sistemático:</b> interacción con los objetos y situaciones que la sociedad transmite por medio de las instituciones educativas, a partir del nivel primario. Sus subestados son los aprendizajes instrumentales, los conocimientos fundamentales, las adquisiciones transculturales, la formación técnica y el perfeccionamiento profesional; cada uno con mayor desconcentración, objetividad e instrumentación.</li></ul>'+
+    '<p>'+A+'Un niño escolarizado de 6 a 10 años cursa el nivel primario, donde el texto ubica el aprendizaje sistemático.</p>';
+  const p2=
+    '<p>'+V('37-39')+'Clasifica los estados patológicos del aprendizaje en tres niveles complementarios: <b>semiológico</b> (síntomas objetivos y subjetivos), <b>patogénico</b> (estructuras y mecanismos que provocan la sintomatología) y <b>etiológico</b> (causas históricas).</p>'+
+    '<ul><li>Los síntomas objetivos se agrupan en aprendizaje asistemático (detenimiento global, ausencia total, dificultad parcial) y aprendizaje sistemático (síntomas específicos e inespecíficos).</li>'+
+    '<li>Nomenclatura de los síntomas específicos: alexia, dislexia, agrafia, disgrafia, disortografía, discaligrafía, escritura en espejo, disintaxis, acalculia, discalculia, detenimiento en la evolución del dibujo, síntomas combinados, lentificación y detenimiento global del aprendizaje.</li>'+
+    '<li>El síntoma goza de ubiquidad: no hay relación unívoca con una sola causa; distintas causas pueden producir el mismo síntoma.</li>'+
+    '<li>Nivel patogénico: parte de la heterogeneidad estructural de la personalidad y de la pluricausalidad gestáltica. Conviven aspectos afectivos y estructurales con distintos niveles de desarrollo. Interesan la afectividad como aspecto energético, la estructura cognoscitiva, las funciones y los mecanismos de regulación interna.</li>'+
+    '<li>Nivel etiológico: principio constructivista de sucesivos niveles de integración; cada uno implica los anteriores y surge de transformar el nivel previo por la interacción con el medio y los mecanismos de regulación interna.</li></ul>'+
+    '<p>'+V(38)+'<b>Barreras del aprendizaje:</b> el síntoma y la estructura subyacente forman tres clases de obstáculos y sus combinaciones.</p><ul>'+
+    '<li><b>Epistemofílico</b> (concepción psicoanalítica): impedimento al amor por el conocimiento, con tres configuraciones afectivas. <i>Miedo a la confusión:</i> resistencia a aprender por temor a la indiscriminación entre lo que se sabía y lo que se va a adquirir. <i>Miedo al ataque:</i> temor a que los conocimientos anteriores sean atacados por los nuevos (promueve mecanismos disociativos). <i>Miedo a la pérdida:</i> temor a perder lo ya adquirido.</li>'+
+    '<li><b>Epistémico:</b> limitación del conocimiento por el nivel de construcción de la estructura cognoscitiva; se apoya en las investigaciones de Piaget y colaboradores sobre lógica y aprendizaje.</li>'+
+    '<li><b>Funcional:</b> diferencias funcionales detectadas por Bärbel Inhelder y otros (homogeneidad y heterogeneidad entre formas de pensamiento, oscilaciones, predominio de asimilación o acomodación, diferencias en el uso de justificaciones) y alteración de funciones estudiadas con métodos psicométricos tradicionales.</li></ul>'+
+    '<div class="callout">'+A+'El texto usa los mismos tres miedos en el obstáculo epistemofílico y en los indicadores de conductas defensivas de la EOCA (p. 44). Si los relacionás en tu análisis, fundamentalo con el material observado.</div>';
+  const p3=
+    '<p>'+V('40-41')+'Instrumento conceptual capaz de representar los distintos estados del objeto sin que pierda su unicidad. Tiene tres partes:</p>'+
+    '<ol><li><b>Diagnóstico propiamente dicho:</b> 1.1 descripción y ubicación contextual; 1.2 sintomatología; 1.3 descripción y explicación ahistórica o sistemática; 1.4 descripción y explicación histórica; 1.5 desviaciones (1.5.1 asincronías).</li>'+
+    '<li><b>Pronóstico:</b> 2.1 sin agentes correctores; 2.2 con agentes correctores ideales; 2.3 con agentes correctores posibles.</li>'+
+    '<li><b>Indicaciones:</b> 3.1 generales (consulta con otros especialistas); 3.2 específicas (acción correctora directa e indirecta).</li></ol>'+
+    '<ul><li>El síntoma es el emergente de la interacción del subsistema personalidad con el sistema social o sus mediatizadores. Por eso importan la edad, el sexo y la cultura de origen.</li>'+
+    '<li>Las causas ahistóricas o sistemáticas se basan en el criterio de K. Lewin: un fenómeno es la resultante de un campo presente, la totalidad de factores coexistentes y mutuamente dependientes en un momento dado.</li>'+
+    '<li>Desde el sujeto, las causas que provocan un síntoma son tres: la afectividad, las funciones y el estadio de pensamiento. La afectividad aporta los componentes energéticos; las funciones y el estadio, la estructura cognoscitiva. Su interacción da un vínculo afectivo-cognitivo.</li>'+
+    '<li>Desviaciones: grado de alejamiento de la conducta respecto de los puntos de referencia (edad, estadio de desarrollo alcanzado y pauta formal). Las asincronías pueden ser internas (dentro de una misma área), externas (entre áreas, como lenguaje y cálculo) y falsas ausencias de desviación (aprendizajes automatizados e intransferibles).</li>'+
+    '<li>Pronóstico: hipótesis sobre el estado futuro del síntoma y sus causas ahistóricas.</li></ul>'+
+    '<p>'+A+'En este trabajo no se hace pronóstico ni indicaciones, porque la actividad no es diagnóstica. La matriz sirve como vocabulario para pensar las hipótesis.</p>';
+  const p4=
+    '<p>'+V('41-43')+'El proceso diagnóstico es la serie de pasos por los que se realiza el reconocimiento, el pronóstico y las indicaciones.</p>'+
+    '<p><b>Secuencia tradicional:</b> anamnesis, tests, pruebas pedagógicas, conceptualización del caso y devolución. Visca critica que la anamnesis inicial forma un juicio previo a través del relato de los padres; que los tests son precisos pero no enfrentan al niño con su problema y crean una barrera; que se aplican de forma multitudinaria e irreflexiva; que las pruebas estandarizadas impiden que emerja la singularidad; y que la conceptualización choca con la dificultad de describir lo particular.</p>'+
+    '<p><b>Secuencia propuesta:</b> EOCA, tests según líneas de investigación, anamnesis abierta y situacional, conceptualización y devolución a los padres y al niño. Ver el esquema en la pestaña Guía.</p>'+
+    '<p>El resultado final es la imagen de un sujeto construida a partir del propio sujeto, no la aplicación de un modelo previo.</p>';
+  const p5=
+    '<p>Está desarrollada en la pestaña Guía: consigna, materiales, cuatro momentos, tres clases de intervención e indicadores.</p>'+
+    '<div class="btns"><button type="button" class="btn ghost small" data-act="goto" data-arg="guia">Abrir la guía</button></div>';
+  const p6=
+    '<p>'+V('45')+'Es el conjunto de operaciones clínicas por las que se facilita la aparición y estabilización de conductas entre un sujeto que acompaña el proceso y otro que lo sufre activamente; ambos forman un sistema en devenir. Sus tres unidades de análisis son el sujeto, el agente corrector y la relación entre ambos.</p>'+
+    '<p>La relación se basa en el vector aprendizaje, es asimétrica y de adaptación activa: el agente corrector actúa como continente transformador de los contenidos no metabolizables por el sujeto. Se piensa en tres momentos que se suceden indefinidamente: (1) el sujeto excorpora contenidos que no puede metabolizar y el agente corrector los recibe; (2) el agente corrector los metaboliza y transforma; (3) el agente corrector devuelve y el sujeto se deja «fecundar» por su intervención, con lo que se cierra una instancia del ciclo.</p>'+
+    '<p>'+A+'No se usa en el trabajo de campo, pero forma parte del texto.</p>';
+  const conc=
+    '<div class="callout">'+V(46)+'Los seis modelos buscan integrar las concepciones psicoanalítica y piagetiana, superando el estudio separado de lo afectivo y lo cognitivo. Visca los presenta como un eslabón hacia la aspiración de Piaget de que la psicología de las funciones cognoscitivas y el psicoanálisis se fusionen en una teoría general.</div>';
+  return '<div class="wrap"><h1>Marco teórico: Visca</h1>'+
+    '<p class="lede">Resumen de los seis modelos del artículo. Para el trabajo de campo pesa sobre todo el modelo de la EOCA, pero el resto ayuda en el análisis.</p>'+
+    '<p class="hint">Cita: VISCA, J. <i>Seis modelos fundados en el psicoanálisis y la epistemología genética.</i> Psicologia-USP, São Paulo, 1(1): 35-46. La primera página del PDF dice 1990 y las citas internas dicen 1989: verificá el año que pide tu cátedra.</p>'+
+    conc+
+    det('m1','1. Esquema evolutivo del aprendizaje',p1,false)+
+    det('m2','2. Modelo nosográfico',p2,false)+
+    det('m3','3. Matriz de pensamiento diagnóstico',p3,false)+
+    det('m4','4. Proceso diagnóstico',p4,false)+
+    det('m5','5. Entrevista operativa centrada en el aprendizaje',p5,true)+
+    det('m6','6. Proceso corrector',p6,false)+'</div>';
+}
+
+/* ---------- documento exportable ---------- */
+function benBlocks(B,v){
+  const f=S.ben.ficha,b=S.ben;
+  B.push({h2:'4. Técnica: Test de Bender (Koppitz)'});
+  [['Nombre de la técnica',f.nombre],['Objetivo',f.objetivo],['Material utilizado',f.material],['Consigna',f.consigna]].forEach(r=>B.push({kv:[r[0],v(r[1])]}));
+  B.push({kv:['Edad cronológica',b.edA!==''?b.edA+' años'+(b.edM!==''?' '+b.edM+' meses':''):'sin completar']});
+  B.push({kv:['Tiempo empleado',btNow()>0?fmt(btNow())+' (desde la tarjeta A hasta la figura 8)':'sin completar']});
+  const cond=[];
+  if(b.cond.modo) cond.push('modo de trabajo '+b.cond.modo.toLowerCase());
+  if(b.cond.papel) cond.push('papel '+b.cond.papel.toLowerCase());
+  B_COND.forEach(x=>{if(b.cond[x[0]]) cond.push(x[1].toLowerCase()+': '+b.cond[x[0]])});
+  if(b.cond.gestoTxt) cond.push('gesto llamativo: '+b.cond.gestoTxt);
+  if(b.cond.otros) cond.push('otros: '+b.cond.otros);
+  B.push({kv:['Conducta durante la prueba',cond.length?cond.join('; '):'sin completar']});
+  B.push({h3:'Registro de la administración'});
+  if(!b.entries.length) B.push({p:'Sin entradas registradas.'});
+  b.entries.forEach(e=>B.push({ent:{head:'['+(e.t!=null?fmt(e.t):e.clock)+'] '+(e.fig==='general'?'General':'Figura '+e.fig)+'.',extra:'',reg:e.reg,obs:e.obs,hip:e.hip,tags:(e.tags&&e.tags.length)?e.tags.join(', '):''}}));
+  const n=scoreTotal();
+  if(n>0||b.sc._done){
+    const it=BITEMS.filter(x=>b.sc[x[1]]).map(x=>x[1]).join(', ');
+    B.push({kv:['Puntaje de errores madurativos (opcional)',n+' de 30'+(it?' (ítems: '+it+')':'')+(b.sc._done?'. Edad de maduración visomotriz según la tabla del protocolo: '+MAD[Math.min(n,21)]:'')]});
+  }
+  const em=EMO.filter(e=>b.emo[e.n]).map(e=>e.n+'. '+e.t);
+  if(em.length) B.push({kv:['Indicadores emocionales observados ('+em.length+')',em.join('; ')]});
+  B.push({kv:['Producción o resultados obtenidos',v(f.produccion)]});
+  B.push({kv:['Observaciones',v(f.observaciones)]});
+}
+function docBlocks(){
+  const en=S.enc,f=S.ficha,st=stats(),B=[];
+  const v=x=>String(x||'').trim()||'sin completar';
+  B.push({h:'Registro de la EOCA (anexo)'});
+  B.push({p:'Trabajo de campo, Diagnóstico Psicopedagógico I. Actividad académica y formativa, sin carácter diagnóstico. Los datos del niño y de su familia están anonimizados.'});
+  B.push({h2:'1. Datos generales'});
+  [['Nombre ficticio',en.alias],['Edad',en.edad],['Fecha de nacimiento',en.nac],['Año que cursa',en.curso],['Grupo familiar y convivientes',en.familia],['Actividades fuera de la escuela',en.actividades]].forEach(r=>B.push({kv:[r[0],v(r[1])]}));
+  B.push({h2:'2. Encuadre del encuentro'});
+  [['Fecha',en.fecha],['Lugar',en.lugar],['Duración',S.timer.elapsed>0?fmt(S.timer.elapsed)+' (cronómetro)':''],['Personas presentes',en.presentes],['Ambiente',en.ambiente],['Cómo me presenté',en.presentacion],['Cómo recibió el niño la propuesta',en.recepcion],['Actitud inicial',en.actitud]].forEach(r=>B.push({kv:[r[0],v(r[1])]}));
+  B.push({h2:'3. Técnica'});
+  [['Nombre de la técnica',f.nombre],['Objetivo',f.objetivo],['Material utilizado',f.material],['Consigna',f.consigna]].forEach(r=>B.push({kv:[r[0],v(r[1])]}));
+  B.push({h3:'Registro de la administración'});
+  if(!S.entries.length) B.push({p:'Sin entradas registradas.'});
+  S.entries.forEach(e=>{
+    let extra='';
+    if(e.kind==='yo') extra=CLSL[e.cls]+(e.tipo?': '+e.tipo:'');
+    if(e.kind==='nino'&&e.def) extra=DEFL[e.def]+(e.int?' (intensidad '+e.int+')':'');
+    B.push({ent:{head:'['+(e.t!=null?fmt(e.t):e.clock)+'] Momento '+e.moment+' ('+MOM[e.moment-1].nombre+'). '+KIND[e.kind]+'.',extra:extra,reg:e.reg,obs:e.obs,hip:e.hip,tags:(e.kind!=='mat'&&e.tags&&e.tags.length)?e.tags.join(', '):''}});
+  });
+  B.push({kv:['Producción o resultados obtenidos',v(f.produccion)]});
+  B.push({kv:['Observaciones',v(f.observaciones)]});
+  benBlocks(B,v);
+  B.push({h2:'5. Análisis provisorio (hipótesis sin carácter diagnóstico)'});
+  if(st.total){
+    B.push({kv:['Entradas por momento',MOM.map((m,i)=>'momento '+m.n+': '+st.perMoment[i]).join('; ')]});
+    B.push({kv:['Intervenciones','consigna inicial '+st.interv.consigna+'; transición '+st.interv.a+'; energéticas '+st.interv.b+'; estructurales y funcionales '+st.interv.c]});
+    if(st.seq.length) B.push({kv:['Conductas defensivas y no defensivas','defensivas '+(st.def.confusion+st.def.ataque+st.def.perdida)+' (confusión '+st.def.confusion+', ataque '+st.def.ataque+', pérdida '+st.def.perdida+'); no defensivas '+st.def.nodef]});
+    if(st.mats.length) B.push({kv:['Orden de los materiales',st.mats.map(e=>e.mat+' ('+st.tm(e)+')').join(', ')]});
+  }
+  ANA_FIELDS.forEach(a=>B.push({kv:[a.t,v(S.ana[a.k])]}));
+  B.push({kv:['Temática',v(S.ana.tematica)]});
+  B.push({kv:['Dinámica',v(S.ana.dinamica)]});
+  B.push({kv:['Producto',v(S.ana.producto)]});
+  B.push({kv:['Desenvolvimiento frente a la tarea estructurada (Bender)',v(S.ben.ana.desenv)]});
+  B.push({kv:['EOCA y Bender: qué aparece en ambos',v(S.ana.integracion)]});
+  B.push({kv:['Hipótesis provisorias',v(S.ana.hipotesis)]});
+  B.push({kv:['Interrogantes y aspectos a seguir explorando',v(S.ana.interrogantes)]});
+  return B;
+}
+function buildText(){
+  return docBlocks().map(b=>{
+    if(b.h) return b.h.toUpperCase()+'\n';
+    if(b.h2) return '\n'+b.h2.toUpperCase();
+    if(b.h3) return '\n'+b.h3;
+    if(b.p) return b.p;
+    if(b.kv) return b.kv[0]+': '+b.kv[1];
+    if(b.ent){const e=b.ent;return '\n'+e.head+(e.extra?'\n  '+e.extra:'')+(e.reg?'\n  Registro: '+e.reg:'')+(e.obs?'\n  Observación: '+e.obs:'')+(e.hip?'\n  Hipótesis: '+e.hip:'')+(e.tags?'\n  Etiquetas: '+e.tags:'')}
+    return '';
+  }).join('\n');
+}
+function buildHtml(){
+  const body=docBlocks().map(b=>{
+    if(b.h) return '<h1>'+esc(b.h)+'</h1>';
+    if(b.h2) return '<h2>'+esc(b.h2)+'</h2>';
+    if(b.h3) return '<h3>'+esc(b.h3)+'</h3>';
+    if(b.p) return '<p>'+esc(b.p)+'</p>';
+    if(b.kv) return '<p><b>'+esc(b.kv[0])+':</b> '+nl(b.kv[1])+'</p>';
+    if(b.ent){const e=b.ent;return '<div class="e"><p><b>'+esc(e.head)+'</b></p>'+(e.extra?'<p><i>'+esc(e.extra)+'</i></p>':'')+(e.reg?'<p>Registro: '+nl(e.reg)+'</p>':'')+(e.obs?'<p>Observación: '+nl(e.obs)+'</p>':'')+(e.hip?'<p>Hipótesis: '+nl(e.hip)+'</p>':'')+(e.tags?'<p>Etiquetas: '+esc(e.tags)+'</p>':'')+'</div>'}
+    return '';
+  }).join('\n');
+  return '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Registro de la EOCA</title><style>@page{size:A4;margin:2.5cm}body{font:12pt/1.5 Arial,sans-serif;color:#000}h1{font-size:16pt}h2{font-size:13pt;margin-top:1.4em}h3{font-size:12pt}.e{border-left:3px solid #888;padding-left:8px;margin:10px 0}p{margin:.3em 0}</style></head><body>'+body+'</body></html>';
+}
+
+/* ---------- vista: EXPORTAR ---------- */
+function vExportar(){
+  const F=[['nombre','Nombre de la técnica',1],['objetivo','Objetivo',2],['material','Material utilizado',2],['consigna','Consigna',2],['produccion','Producción o resultados obtenidos',3],['observaciones','Observaciones',3]];
+  const fields=F.map(x=>'<label class="lbl" for="f-'+x[0]+'">'+x[1]+'</label>'+(x[2]===1?'<input id="f-'+x[0]+'" type="text" data-bind="ficha.'+x[0]+'" value="'+esc(S.ficha[x[0]])+'">':'<textarea id="f-'+x[0]+'" data-bind="ficha.'+x[0]+'" rows="'+x[2]+'">'+esc(S.ficha[x[0]])+'</textarea>')).join('');
+  const bfields=F.map(x=>'<label class="lbl" for="bf-'+x[0]+'">'+x[1]+'</label>'+(x[2]===1?'<input id="bf-'+x[0]+'" type="text" data-bind="ben.ficha.'+x[0]+'" value="'+esc(S.ben.ficha[x[0]])+'">':'<textarea id="bf-'+x[0]+'" data-bind="ben.ficha.'+x[0]+'" rows="'+x[2]+'">'+esc(S.ben.ficha[x[0]])+'</textarea>')).join('');
+  const rs=armed==='reset';
+  return '<div class="wrap"><h1>Exportar el registro</h1>'+
+    '<p class="lede">'+G+'La guía pide incluir en anexos el registro de la EOCA y las producciones. Acá armás el registro; las producciones originales o sus copias se adjuntan aparte.</p>'+
+    '<div class="card"><h2>Ficha de la EOCA</h2><p class="hint">'+G+'Nombre, objetivo, material, consigna, registro, producción y observaciones. El registro sale de la pestaña Sesión.</p>'+fields+'</div>'+
+    '<div class="card"><h2>Ficha del Bender</h2><p class="hint">'+G+'Mismos campos que la ficha de la EOCA. El registro sale de la pestaña Bender.</p>'+bfields+'</div>'+
+    '<div class="card"><h2>Vista previa</h2><textarea id="prev" class="prev" readonly aria-label="Vista previa del registro">'+esc(buildText())+'</textarea>'+
+    '<div class="btns"><button type="button" class="btn" data-act="copyDoc">Copiar texto</button><button type="button" class="btn ghost" data-act="dlHtml">Descargar para Word (.html)</button><button type="button" class="btn ghost" data-act="dlTxt">Descargar .txt</button></div>'+
+    '<p class="hint">El archivo .html se abre con Word (Arial 12, interlineado 1,5, A4). Si la descarga no está disponible, usá Copiar texto.</p></div>'+
+    cloudCard()+'<div class="card"><h2>Privacidad</h2><p>'+(CLOUD_ON?'Los datos se guardan en este navegador y, si subís a la nube, también en tu cuenta de Supabase. ':'Todo se guarda solo en este navegador. ')+'La guía pide preservar la identidad del niño y su familia: no cargues apellido, domicilio ni nombre de la escuela.</p>'+
+    '<div class="btns"><button type="button" class="btn ghost'+(rs?' warn':'')+'" data-act="resetAll">'+(rs?'¿Seguro? Borrar todo':'Borrar todos los datos')+'</button></div></div></div>';
+}
+
+/* ---------- render ---------- */
+const TABS=[['guia','Guía'],['sesion','Sesión'],['bender','Bender'],['analisis','Análisis'],['marco','Marco'],['exportar','Exportar']];
+const VIEWS={guia:vGuia,sesion:vSesion,bender:vBender,analisis:vAnalisis,marco:vMarco,exportar:vExportar};
+function render(top){
+  const y=window.scrollY;
+  $('#tabs').innerHTML=TABS.map(t=>'<button type="button" data-tab="'+t[0]+'"'+(S.ui.tab===t[0]?' aria-current="page"':'')+'>'+t[1]+'</button>').join('');
+  $('#app').innerHTML=(VIEWS[S.ui.tab]||vGuia)();
+  window.scrollTo(0,top?0:y);
+  paintTimer();
+}
+function go(t){S.ui.tab=t;armed=null;save();render(true)}
+
+/* ---------- acciones ---------- */
+function saveFile(name,data){
+  Promise.resolve().then(()=>window.claude&&window.claude.use?window.claude.use('downloads'):null).then(dl=>{
+    if(!dl){
+      try{
+        const blob=new Blob([data],{type:/\.html$/.test(name)?'text/html;charset=utf-8':'text/plain;charset=utf-8'});
+        const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
+        document.body.appendChild(a);a.click();
+        setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+        toast('Archivo descargado.');
+      }catch(e){toast('No se pudo descargar. Usá Copiar texto.')}
+      return;
+    }
+    return dl.save({filename:name,data:data}).then(()=>toast('Archivo guardado.'));
+  }).catch(err=>{
+    if(err&&err.code==='declined') return;
+    toast('No se pudo guardar. Probá con Copiar texto.');
+  });
+}
+function copyDoc(){
+  const txt=buildText();
+  const fallback=()=>{const p=$('#prev');if(p){p.removeAttribute('readonly');p.focus();p.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}p.setAttribute('readonly','');toast(ok?'Texto copiado.':'Seleccioné el texto: copialo con el menú de tu dispositivo.')}};
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(()=>toast('Texto copiado.')).catch(fallback);
+  else fallback();
+}
+const ACT={
+  goto:b=>go(b.dataset.arg),
+  timerToggle:()=>{
+    if(S.timer.runStart){S.timer.elapsed+=Date.now()-S.timer.runStart;S.timer.runStart=null}
+    else S.timer.runStart=Date.now();
+    save();render();
+  },
+  timerReset:()=>{
+    if(armed==='timer'){S.timer.elapsed=0;S.timer.runStart=null;armed=null;save();render();toast('Cronómetro en cero.')}
+    else arm('timer');
+  },
+  setMoment:b=>{S.ui.moment=+b.dataset.arg;save();render()},
+  setKind:b=>{S.ui.kind=b.dataset.arg;save();render()},
+  toggleTag:b=>{const t=OBS_TAGS[+b.dataset.arg],i=S.draft.tags.indexOf(t);if(i>-1)S.draft.tags.splice(i,1);else S.draft.tags.push(t);save();render()},
+  insertConsigna:()=>{S.draft.reg=CONSIGNA;save();render()},
+  addMat:b=>{
+    const name=MATERIALES[+b.dataset.arg];
+    const run=S.timer.elapsed>0||S.timer.runStart;
+    S.entries.push({id:uid(),kind:'mat',moment:S.ui.moment,reg:'Toma: '+name.toLowerCase(),obs:'',hip:'',tags:['Elección de materiales'],mat:name,t:run?elapsedNow():null,clock:hhmm()});
+    save();render();toast('Registrado: '+name.toLowerCase());
+  },
+  addEntry:()=>{
+    const d=S.draft,k=S.ui.kind;
+    if(!d.reg.trim()&&!d.obs.trim()&&!d.hip.trim()){toast('Escribí al menos el registro.');return}
+    const e={id:S.editId||uid(),kind:k,moment:S.ui.moment,reg:d.reg.trim(),obs:d.obs.trim(),hip:d.hip.trim(),tags:d.tags.slice()};
+    if(k==='nino'){e.def=d.def;e.int=(d.def&&d.def!=='nodef')?d.int:''}
+    if(k==='yo'){e.cls=d.cls;e.tipo=d.cls==='a'?d.tipo:''}
+    if(S.editId){
+      const i=S.entries.findIndex(x=>x.id===S.editId);
+      if(i>-1){e.t=S.entries[i].t;e.clock=S.entries[i].clock;S.entries[i]=e}
+      S.editId=null;toast('Cambios guardados.');
+    }else{
+      const run=S.timer.elapsed>0||S.timer.runStart;
+      e.t=run?elapsedNow():null;e.clock=hhmm();S.entries.push(e);toast('Agregado al registro.');
+    }
+    const keep=d.cls;S.draft=freshDraft();S.draft.cls=keep;
+    save();render();
+  },
+  cancelEdit:()=>{S.editId=null;S.draft=freshDraft();save();render()},
+  editEntry:b=>{
+    const e=S.entries.find(x=>x.id===b.dataset.arg);if(!e)return;
+    S.editId=e.id;S.ui.kind=e.kind;S.ui.moment=e.moment;
+    S.draft={reg:e.reg||'',obs:e.obs||'',hip:e.hip||'',tags:(e.tags||[]).slice(),def:e.def||'',int:e.int||'',cls:e.cls||'consigna',tipo:e.tipo||''};
+    save();render();window.scrollTo(0,0);
+  },
+  delEntry:b=>{
+    const id=b.dataset.arg;
+    if(armed==='del:'+id){S.entries=S.entries.filter(x=>x.id!==id);if(S.editId===id){S.editId=null;S.draft=freshDraft()}armed=null;save();render();toast('Entrada eliminada.')}
+    else arm('del:'+id);
+  },
+  disarm:()=>{armed=null;render()},
+  btToggle:()=>{
+    if(S.bt.runStart){S.bt.elapsed+=Date.now()-S.bt.runStart;S.bt.runStart=null}
+    else S.bt.runStart=Date.now();
+    save();render();
+  },
+  btReset:()=>{
+    if(armed==='btimer'){S.bt.elapsed=0;S.bt.runStart=null;armed=null;save();render();toast('Tiempo en cero.')}
+    else arm('btimer');
+  },
+  setFig:b=>{S.ui.bfig=b.dataset.arg;save();render()},
+  toggleBTag:b=>{const t=B_TAGS[+b.dataset.arg],a=S.ben.draft.tags,i=a.indexOf(t);if(i>-1)a.splice(i,1);else a.push(t);save();render()},
+  addBEntry:()=>{
+    const d=S.ben.draft;
+    if(!d.reg.trim()&&!d.obs.trim()&&!d.hip.trim()){toast('Escribí al menos el registro.');return}
+    const e={id:S.ben.editId||uid(),fig:S.ui.bfig,reg:d.reg.trim(),obs:d.obs.trim(),hip:d.hip.trim(),tags:d.tags.slice()};
+    if(S.ben.editId){
+      const i=S.ben.entries.findIndex(x=>x.id===S.ben.editId);
+      if(i>-1){e.t=S.ben.entries[i].t;e.clock=S.ben.entries[i].clock;S.ben.entries[i]=e}
+      S.ben.editId=null;toast('Cambios guardados.');
+    }else{
+      const run=S.bt.elapsed>0||S.bt.runStart;
+      e.t=run?btNow():null;e.clock=hhmm();S.ben.entries.push(e);toast('Agregado al registro.');
+    }
+    S.ben.draft={reg:'',obs:'',hip:'',tags:[]};
+    save();render();
+  },
+  cancelBEdit:()=>{S.ben.editId=null;S.ben.draft={reg:'',obs:'',hip:'',tags:[]};save();render()},
+  editBEntry:b=>{
+    const e=S.ben.entries.find(x=>x.id===b.dataset.arg);if(!e)return;
+    S.ben.editId=e.id;S.ui.bfig=e.fig;
+    S.ben.draft={reg:e.reg||'',obs:e.obs||'',hip:e.hip||'',tags:(e.tags||[]).slice()};
+    save();render();
+  },
+  delBEntry:b=>{
+    const id=b.dataset.arg;
+    if(armed==='bdel:'+id){S.ben.entries=S.ben.entries.filter(x=>x.id!==id);if(S.ben.editId===id){S.ben.editId=null;S.ben.draft={reg:'',obs:'',hip:'',tags:[]}}armed=null;save();render();toast('Entrada eliminada.')}
+    else arm('bdel:'+id);
+  },
+  cloudLogin:async()=>{
+    const m=($('#c-mail')||{}).value;
+    if(!m||m.indexOf('@')<1){toast('Escribí un correo válido.');return}
+    const r=await sb.auth.signInWithOtp({email:m.trim(),options:{emailRedirectTo:location.origin+location.pathname}});
+    if(r.error){cloud.msg='No se pudo enviar el enlace. Revisá el correo o que el acceso esté habilitado.';render()}
+    else toast('Te enviamos el enlace. Revisá tu correo.');
+  },
+  cloudPush:async()=>{const ok=await cloudPush();toast(ok?'Guardado en la nube.':'No se pudo guardar.')},
+  cloudPull:()=>{
+    if(armed!=='pull'){arm('pull');return}
+    armed=null;
+    S=merge(defaults(),cloud.row.data);S.timer.runStart=null;S.bt.runStart=null;S.ui.tab='exportar';
+    try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+    render();toast('Datos traídos de la nube.');
+  },
+  cloudOut:async()=>{await sb.auth.signOut();toast('Sesión cerrada.')},
+  cloudAuto:()=>{
+    cloud.auto=!cloud.auto;
+    try{localStorage.setItem('eoca-sync-auto',cloud.auto?'1':'0')}catch(e){}
+    render();
+    if(cloud.auto) cloudPush();
+  },
+  copyDoc:copyDoc,
+  dlTxt:()=>saveFile('registro-eoca.txt',buildText()),
+  dlHtml:()=>saveFile('registro-eoca.html',buildHtml()),
+  resetAll:()=>{
+    if(armed==='reset'){
+      try{localStorage.removeItem(KEY)}catch(e){}
+      S=defaults();armed=null;render(true);toast('Datos borrados.');
+    }else arm('reset');
+  }
+};
+
+/* ---------- eventos ---------- */
+const app=$('#app');
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab)});
+app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const f=ACT[b.dataset.act];if(f)f(b)});
+app.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset&&t.dataset.bind&&t.type!=='radio'){
+    setPath(t.dataset.bind,t.value);save();
+    if(t.dataset.bind.indexOf('ficha.')===0||t.dataset.bind.indexOf('ana.')===0||t.dataset.bind.indexOf('ben.')===0){const p=$('#prev');if(p)p.value=buildText()}
+  }
+});
+app.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset&&t.dataset.check){setPath('chk.'+t.dataset.check,t.checked);save();return}
+  if(t.dataset&&t.dataset.bcheck){
+    S.ben.sc[t.dataset.bcheck]=t.checked;save();
+    const s=$('#bsc-sum');if(s)s.innerHTML=scoreSummary();
+    return;
+  }
+  if(t.dataset&&t.dataset.echeck){
+    S.ben.emo[t.dataset.echeck]=t.checked;save();
+    const c=$('#emo-count');if(c)c.textContent='Indicadores marcados: '+emoCount();
+    return;
+  }
+  if(t.dataset&&t.dataset.bind){
+    if(t.type==='radio'){if(t.checked)setPath(t.dataset.bind,t.value)}
+    else setPath(t.dataset.bind,t.value);
+    save();
+    if(t.dataset.rerender)render();
+  }
+});
+app.addEventListener('toggle',e=>{
+  const d=e.target;
+  if(d.tagName==='DETAILS'&&d.dataset.key){S.ui.open[d.dataset.key]=d.open;save()}
+},true);
+
+render(true);
+cloudInit();
+})();
+</script>
+</body>
+</html>

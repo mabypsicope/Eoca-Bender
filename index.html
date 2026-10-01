@@ -316,7 +316,7 @@ function getPath(p){return p.split('.').reduce((o,k)=>o==null?'':o[k],S)}
 /* ---------- nube (Supabase), opcional ---------- */
 /* Completá estos dos valores con los de tu proyecto (Project Settings > API).
    Usá SIEMPRE la clave "anon" (publishable). Nunca la "service_role". */
-const CLOUD_CFG={url:'',key:''};
+const CLOUD_CFG={url:'https://ogudycqejoflbesjpzff.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndWR5Y3Flam9mbGJlc2pwemZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4MTUxNDcsImV4cCI6MjEwNjM5MTE0N30.QkOeBwkx-WIb1lbO7uZRZHjKbIfiRi2sE0R6ZB9gdvw'};
 const CLOUD_ON=/^https:\/\//.test(CLOUD_CFG.url)&&CLOUD_CFG.key.length>20;
 let sb=null,cloudT=null;
 const cloud={user:null,row:null,auto:false,busy:false,msg:''};
